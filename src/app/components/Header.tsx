@@ -1,9 +1,8 @@
-// import { Link}
-// import { FaTicketSimple } from "react-icons/fa6";
-// import { IoMenu, IoClose } from "react-icons/io5";
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import Image from "next/image";
+import { IoClose, IoMenu } from "react-icons/io5";
 
 const navLinks = [
   {
@@ -30,17 +29,22 @@ const Header = () => {
     <header className="p-5 relative flex justify-between items-center lg:px-8 lg:py-8 shadow">
       {/* Logo container */}
       <Link href={"/"}>
-        <div className="flex items-center gap-[0.35rem] font-semibold text-[1.4rem] text-blue-700">
-          <h2>DiaCura-Med</h2>
-        </div>
+        <Image
+          className=""
+          src="/images/logo.svg"
+          alt="Dia-cura Med logo"
+          width={180}
+          height={38}
+          priority
+        />
       </Link>
 
       {/* Nav Links */}
       <div className="flex items-center">
         <nav
           className={`absolute left-0 lg:static space-y-6 ${
-            openMenu ? "top-16" : "-top-80"
-          } transition-all duration-300 bg-white z-20 px-4 pb-6 w-full lg:p-0 lg:w-fit lg:flex lg:items-center lg:space-y-0 lg:gap-16 shadow-md lg:shadow-none`}
+            openMenu ? "top-18" : "-top-80"
+          } transition-all duration-300 bg-white z-20 px-5 pb-6 w-full lg:p-0 lg:w-fit lg:flex lg:items-center lg:space-y-0 lg:gap-16 shadow-md lg:shadow-none`}
         >
           <ul className="flex flex-col gap-5 lg:flex-row lg:items-center lg:gap-16">
             {navLinks.map((link) => {
@@ -59,7 +63,7 @@ const Header = () => {
           </ul>
           <Link
             href={"/login"}
-            className="inline-block bg-[#107bc0] hover:bg-[#9353e5] px-[2.4rem] py-[0.7rem] lg:px-10 lg:py-[0.85rem] rounded-[15px] text-white text-[1.2rem] font-bold hover:opacity-80"
+            className="inline-block bg-[#107bc0] hover:bg-[#9353e5] px-[2.4rem] py-[0.7rem] lg:px-12 lg:py-[0.8rem] rounded-md text-white text-[1.2rem] font-bold hover:opacity-80"
           >
             Login
           </Link>
@@ -67,15 +71,10 @@ const Header = () => {
 
         {/* Menu icon for mobile */}
         <button
-          className="outline-none lg:hidden"
+          className="outline-none lg:hidden text-[1.8rem] text-[#107bc0]"
           onClick={() => setOpenMenu(!openMenu)}
         >
-          {/* {openMenu ? (
-            <IoClose className="text-[1.8rem]" />
-          ) : (
-            <IoMenu className="text-[1.8rem]" />
-          )} */}
-          Menu
+          {openMenu ? <IoClose /> : <IoMenu />}
         </button>
       </div>
     </header>

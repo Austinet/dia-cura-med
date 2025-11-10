@@ -1,19 +1,19 @@
-// import Image from "next/image";
-import Hero from "./components/Hero";
+import ContactUs from "./components/home/ContactUs";
+import FAQs from "./components/home/FAQs";
+import Features from "./components/home/Features";
+import Hero from "./components/home/Hero";
+import OurDoctors from "./components/home/OurDoctors";
+import AboutUs from "./components/home/AboutUs";
 
 export default function Home() {
   return (
     <main>
       <Hero />
-
-      {/* <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        /> */}
+      <AboutUs />
+      <Features />
+      <OurDoctors />
+      <FAQs />
+      <ContactUs />
     </main>
   );
 }
