@@ -35,7 +35,7 @@ const Hero = () => {
           {/* Large Screen */}
           <div className="hidden md:block">
             <Image
-              className="w-full h-auto object-cover min-w-[600px]"
+              className="w-full h-auto object-cover md:min-w-[350px] lg:min-w-[500px] xl:min-w-[600px]"
               src="/images/home/hero.png"
               alt="Doctor taking care of a patient"
               width={500}
