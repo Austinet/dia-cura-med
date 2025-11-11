@@ -5,7 +5,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 const OurDoctors = () => {
   return (
     <section>
-      <div className="max-w-[35rem] mx-auto px-5 my-[4rem] lg:mb-[11.81rem] lg:max-w-[75.0625rem] lg:mt-[7.88rem]">
+      <div className="max-w-[35rem] mx-auto px-5 my-[4rem] lg:my-[6.5rem] lg:max-w-[75.0625rem]">
         <div className="text-center">
           <h2 className="text-[1.5rem] lg:text-[2.8rem] font-bold leading-normal mb-[2.5rem] lg:mb-[5.56rem]">
             Our Doctors
