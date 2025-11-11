@@ -3,24 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
 import { IoClose, IoMenu } from "react-icons/io5";
-
-const navLinks = [
-  {
-    id: 1,
-    href: "#hero",
-    label: "Home",
-  },
-  {
-    id: 2,
-    href: "#features",
-    label: "FAQ",
-  },
-  {
-    id: 3,
-    href: "#footer",
-    label: "Contact Us",
-  },
-];
+import { navLinks } from "../constants/constants";
 
 const Header = () => {
   const [openMenu, setOpenMenu] = useState(false);

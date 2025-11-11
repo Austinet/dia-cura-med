@@ -12,7 +12,7 @@ const OurDoctors = () => {
           </h2>
         </div>
         <div className="flex flex-col lg:flex-row items-center gap-[2rem] lg:gap-[3.38rem] lg:border lg:border-[#CCC] lg:rounded-[0.875rem] lg:shadow-md">
-          <div className="lg:w-[30.5rem] lg:h-[26.9325rem]">
+          <div className="lg:w-[30.5rem] lg:h-[26.9325rem] w-full">
             <Image
               src="/images/home/smiling-doctor.jpg"
               alt="A doctor smiling"

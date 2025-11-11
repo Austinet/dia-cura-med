@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ButtonLink from "../ui/ButtonLink";
+import { FaQuoteRight } from "react-icons/fa6";
 
 const Testimonials = () => {
   return (
@@ -26,7 +27,7 @@ const Testimonials = () => {
                 height={90}
                 className=""
               />
-              <p className="text-5xl text-[#107BC0]">&quot;</p>
+              <FaQuoteRight className="text-2xl text-[#107BC0]" />
             </div>
             <div className="pb-[3.44rem] ">
               <h3 className="text-[1.25rem] text-[#020D14] font-bold leading-normal mb-[1.88rem]">
@@ -48,8 +49,7 @@ const Testimonials = () => {
                 height={90}
                 className=""
               />
-              <p className="text-5xl text-[#107BC0]">&quot;</p>
-              {/* <img src={quote} alt="quote" /> */}
+              <FaQuoteRight className="text-2xl text-[#107BC0]" />
             </div>
             <div className="pb-[3.44rem] ">
               <h3 className="text-[1.25rem] text-[#020D14] font-bold leading-normal mb-[1.88rem]">

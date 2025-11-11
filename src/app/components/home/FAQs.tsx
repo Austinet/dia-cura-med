@@ -3,39 +3,7 @@
 import { useState } from "react";
 import ButtonLink from "../ui/ButtonLink";
 import { FaChevronDown } from "react-icons/fa6";
-
-const faqList = [
-  {
-    id: 1,
-    question: "What is diabetes and how can I be tested for it?",
-    answer: `Diabetes is a condition in which your blood sugar, or blood glucose, rises to unhealthy levels. Insulin, a hormone created in the pancreas, enables glucose from your food to be transferred from blood to your cells in order to provide energy for your body. When glucose is not properly processed or if not enough insulin is created to help the processing, glucose is trapped in the blood and cannot reach your cells.`,
-    active: false,
-  },
-  {
-    id: 2,
-    question: "What health problems does it cause?",
-    answer: `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus dignissimos enim quidem ratione voluptate inventore hic rerum autem.`,
-    active: false,
-  },
-  {
-    id: 3,
-    question: "How can diabetes be treated?",
-    answer: `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus dignissimos enim quidem ratione voluptate inventore hic rerum autem.`,
-    active: false,
-  },
-  {
-    id: 4,
-    question: "What can I do to help prevent diabetes?",
-    answer: `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus dignissimos enim quidem ratione voluptate inventore hic rerum autem.`,
-    active: false,
-  },
-  {
-    id: 5,
-    question: "How can I manage my diabetes better?",
-    answer: `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus dignissimos enim quidem ratione voluptate inventore hic rerum autem.`,
-    active: false,
-  },
-];
+import { faqList } from "@/app/constants/constants";
 
 const FAQs = () => {
   const [faqs, setFaqs] = useState(faqList);
