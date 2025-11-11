@@ -4,6 +4,7 @@ import Features from "./components/home/Features";
 import Hero from "./components/home/Hero";
 import OurDoctors from "./components/home/OurDoctors";
 import AboutUs from "./components/home/AboutUs";
+import OurDashboard from "./components/home/OurDashboard";
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
       <Hero />
       <AboutUs />
       <Features />
+      <OurDashboard />
       <OurDoctors />
       <FAQs />
       <ContactUs />
