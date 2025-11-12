@@ -3,7 +3,7 @@ import Link from "next/link";
 import { quickLinks, termsLinks } from "../constants/constants";
 import {
   FaArrowRight,
-  FaFacebook,
+  FaFacebookF,
   FaInstagram,
   FaLinkedinIn,
   FaSquareYoutube,
@@ -19,7 +19,7 @@ const socialLinks = [
   },
   {
     id: 2,
-    icon: <FaFacebook />,
+    icon: <FaFacebookF />,
     label: "Facebook",
     url: "/",
   },

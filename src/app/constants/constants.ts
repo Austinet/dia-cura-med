@@ -11,7 +11,7 @@ export const navLinks = [
   },
   {
     id: 3,
-    href: "#footer",
+    href: "/contact-us",
     label: "Contact Us",
   },
 ];
@@ -57,7 +57,7 @@ export const quickLinks = [
   },
   {
     id: 2,
-    href: "/contact",
+    href: "/contact-us",
     label: "Contact Us",
   },
   {
