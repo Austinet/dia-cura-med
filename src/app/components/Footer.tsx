@@ -132,7 +132,7 @@ const Footer = () => {
                 type="email"
                 required
               />
-              <button className="bg-[#107bc0] text-white h-12 rounded-sm flex items-center px-4">
+              <button className="bg-[#107bc0] hover:bg-[#9353e5] text-white h-12 rounded-sm flex items-center px-4">
                 <FaArrowRight />
               </button>
             </form>

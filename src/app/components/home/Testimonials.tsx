@@ -33,7 +33,7 @@ const Testimonials = () => {
               <h3 className="text-[1.25rem] text-[#020D14] font-bold leading-normal mb-[1.88rem]">
                 John Eze
               </h3>
-              <p className="text-base text-[#999] font-semibold leading-normal">
+              <p className="text-base text-[#020D14bb] font-semibold leading-normal">
                 &quot;Transformative! This app made managing my diabetes
                 seamless. Personalized plans, expert guidance, and a supportive
                 community. Grateful for this game-changer!&quot;
@@ -55,7 +55,7 @@ const Testimonials = () => {
               <h3 className="text-[1.25rem] text-[#020D14] font-bold leading-normal mb-[1.88rem]">
                 Sarah Alex
               </h3>
-              <p className="text-base text-[#999] font-semibold leading-normal">
+              <p className="text-base text-[#020D14bb] font-semibold leading-normal">
                 &quot;As a long-time diabetes warrior, Diacura has
                 revolutionized my approach. The comprehensive tracking, expert
                 advice, and vibrant community inspire me daily.&quot;

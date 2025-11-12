@@ -33,10 +33,10 @@ const Header = () => {
             {navLinks.map((link) => {
               const { id, href, label } = link;
               return (
-                <li key={id}>
+                <li key={id} onClick={() => setOpenMenu(false)}>
                   <Link
                     href={href}
-                    className="font-medium text-[1.1rem] text-gray-700 lg:pb-1.5 hover:border-b"
+                    className="font-medium text-[1.1rem] text-gray-700 hover:text-[#107bc0]"
                   >
                     {label}
                   </Link>

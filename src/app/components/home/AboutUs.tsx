@@ -51,12 +51,12 @@ const AboutUs = () => {
             return (
               <div
                 key={id}
-                className="bg-white text-[#062D45] text-center shadow-lg rounded-lg py-5 px-[0.65rem] max-w-[254px] lg:py-8 lg:px-4 lg:rounded-2xl"
+                className="bg-white text-[#062D45] text-center shadow-lg space-y-2 rounded-lg py-5 px-[0.65rem] max-w-[254px] lg:py-8 lg:px-4 lg:rounded-2xl"
               >
-                <div className="bg-[#CFE5F2] inline-block p-3 text-[20px] rounded-full mb-1">
+                <div className="bg-[#CFE5F2] inline-block p-3 text-[20px] rounded-full">
                   {icon}
                 </div>
-                <div className="space-y-0.5">
+                <div className="space-y-0.5 lg:space-y-1.5">
                   <h4 className="text-[20px] font-Open-sans font-extrabold lg:text-[32px]">
                     {rating}
                   </h4>
