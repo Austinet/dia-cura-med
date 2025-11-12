@@ -33,11 +33,7 @@ const ContactUs = () => {
   };
 
   //Validates user inputs fields
-  const validateField = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const field = e.target.id;
-
+  const validateField = (field: string) => {
     if (field === "firstName") {
       const firstName = !NAME_REGEX.test(contactForm.firstName);
       setFormErrors({ ...formErrors, firstName });
@@ -117,7 +113,8 @@ const ContactUs = () => {
                   id="firstName"
                   value={contactForm.firstName}
                   onChange={setProperty}
-                  onBlur={validateField}
+                  onBlur={() => validateField("firstName")}
+                  onInput={() => validateField("firstName")}
                   className="border border-[#00000093] w-full h-[3.13rem] rounded-lg px-3 outline-none focus:border-2"
                   required
                 />
@@ -141,8 +138,8 @@ const ContactUs = () => {
                   id="lastName"
                   value={contactForm.lastName}
                   onChange={setProperty}
-                  onInput={validateField}
-                  onBlur={validateField}
+                  onBlur={() => validateField("lastName")}
+                  onInput={() => validateField("lastName")}
                   className="border border-[#00000093] w-full h-[3.13rem] rounded-lg px-3 outline-none focus:border-2"
                   required
                 />
@@ -166,7 +163,8 @@ const ContactUs = () => {
                   id="email"
                   value={contactForm.email}
                   onChange={setProperty}
-                  onBlur={validateField}
+                  onBlur={() => validateField("email")}
+                  onInput={() => validateField("email")}
                   className="border border-[#00000093] w-full h-[3.13rem] rounded-lg px-3 outline-none focus:border-2"
                   required
                 />
@@ -190,7 +188,8 @@ const ContactUs = () => {
                   id="message"
                   value={contactForm.lastName}
                   onChange={setProperty}
-                  onBlur={validateField}
+                  onBlur={() => validateField("message")}
+                  onInput={() => validateField("message")}
                   className="border border-[#00000093] w-full h-[100px] resize-none rounded-lg px-3 outline-none focus:border-2"
                   required
                 ></textarea>
