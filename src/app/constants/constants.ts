@@ -1,13 +1,13 @@
 export const navLinks = [
   {
     id: 1,
-    href: "#hero",
+    href: "/",
     label: "Home",
   },
   {
     id: 2,
-    href: "#features",
-    label: "FAQ",
+    href: "/",
+    label: "Services",
   },
   {
     id: 3,
@@ -52,7 +52,7 @@ export const faqList = [
 export const quickLinks = [
   {
     id: 1,
-    href: "#hero",
+    href: "/",
     label: "Home",
   },
   {
