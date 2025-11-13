@@ -160,8 +160,8 @@ const Register = () => {
   // };
 
   return (
-    <main className=" w-full items-center justify-center font-Open_Sans">
-      <section className="px-5 mb-8 lg:mb-12">
+    <main>
+      <section className="px-5 mb-8 lg:mb-12 font-Open_Sans">
         {/* Back button */}
         <div className="mt-5">
           <button
@@ -172,244 +172,238 @@ const Register = () => {
           </button>
         </div>
 
-        <div className="max-w-[800px] mx-auto md:rounded-[20px] md:shadow-lg gap-10 md:p-10">
-          <div className="py-2">
-            <div className="mb-6 lg:mb-8">
-              <h1 className="text-[1.7rem] text-[#062D45] font-semibold md:mb-3">
-                Register
-              </h1>
-              <p className="text-lg text-[#3891CA]">Sign up to get started</p>
-            </div>
-            <div>
-              <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
-                <div className="flex flex-col md:flex-row gap-3 md:gap-5">
-                  <div className="md:w-[50%]">
-                    <label
-                      htmlFor="firstName"
-                      className="text-lg lg:text-xl font-medium text-[#000000d5] inline-block mb-2"
-                    >
-                      First Name:
-                    </label>
-                    <input
-                      type="text"
-                      name="firstName"
-                      id="firstName"
-                      value={newUser.firstName}
-                      onChange={setProperty}
-                      onInput={validateField}
-                      onBlur={validateField}
-                      className="border border-[#00000093] w-full h-[3.13rem] rounded-lg px-3 outline-none focus:border-2"
-                      required
-                    />
-                    <span
-                      className={`text-red-600 ${
-                        newUserErrors.firstName ? "block" : "hidden"
-                      }`}
-                    >
-                      Must be more than 2 characters, letters only
-                    </span>
-                  </div>
-                  <div className="md:w-[50%]">
-                    <label
-                      htmlFor="lastName"
-                      className="text-lg lg:text-xl font-medium text-[#000000d5] inline-block mb-2"
-                    >
-                      Last Name:
-                    </label>
-                    <input
-                      type="text"
-                      id="lastName"
-                      value={newUser.lastName}
-                      onChange={setProperty}
-                      onInput={validateField}
-                      onBlur={validateField}
-                      className="border border-[#00000093] w-full h-[3.13rem] rounded-lg px-3 outline-none focus:border-2"
-                      required
-                    />
-                    <span
-                      className={`text-red-600 ${
-                        newUserErrors.lastName ? "block" : "hidden"
-                      }`}
-                    >
-                      Must be more than 2 characters, letters only
-                    </span>
-                  </div>
+        <div className="max-w-[800px] mx-auto py-2 md:rounded-[20px] md:shadow-lg gap-10 md:p-10">
+          <div className="mb-6 lg:mb-8">
+            <h1 className="text-[1.7rem] text-[#062D45] font-semibold md:mb-3">
+              Register
+            </h1>
+            <p className="text-lg text-[#3891CA]">Sign up to get started</p>
+          </div>
+          <div>
+            <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
+              <div className="flex flex-col md:flex-row gap-3 md:gap-5">
+                <div className="md:w-[50%]">
+                  <label
+                    htmlFor="firstName"
+                    className="text-lg lg:text-xl font-medium text-[#000000d5] inline-block mb-2"
+                  >
+                    First Name:
+                  </label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    id="firstName"
+                    value={newUser.firstName}
+                    onChange={setProperty}
+                    onInput={validateField}
+                    onBlur={validateField}
+                    className="border border-[#00000093] w-full h-[3.13rem] rounded-lg px-3 outline-none focus:border-2"
+                    required
+                  />
+                  <span
+                    className={`text-red-600 ${
+                      newUserErrors.firstName ? "block" : "hidden"
+                    }`}
+                  >
+                    Must be more than 2 characters, letters only
+                  </span>
                 </div>
-                <div className="flex flex-col md:flex-row gap-3 md:gap-5">
-                  <div className="md:w-[50%]">
-                    <label
-                      htmlFor="phoneNumber"
-                      className="text-lg lg:text-xl font-medium text-[#000000d5] inline-block mb-2"
-                    >
-                      Phone Number:
-                    </label>
+                <div className="md:w-[50%]">
+                  <label
+                    htmlFor="lastName"
+                    className="text-lg lg:text-xl font-medium text-[#000000d5] inline-block mb-2"
+                  >
+                    Last Name:
+                  </label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    value={newUser.lastName}
+                    onChange={setProperty}
+                    onInput={validateField}
+                    onBlur={validateField}
+                    className="border border-[#00000093] w-full h-[3.13rem] rounded-lg px-3 outline-none focus:border-2"
+                    required
+                  />
+                  <span
+                    className={`text-red-600 ${
+                      newUserErrors.lastName ? "block" : "hidden"
+                    }`}
+                  >
+                    Must be more than 2 characters, letters only
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-col md:flex-row gap-3 md:gap-5">
+                <div className="md:w-[50%]">
+                  <label
+                    htmlFor="phoneNumber"
+                    className="text-lg lg:text-xl font-medium text-[#000000d5] inline-block mb-2"
+                  >
+                    Phone Number:
+                  </label>
+                  <input
+                    type="tel"
+                    id="phoneNumber"
+                    value={newUser.phoneNumber}
+                    onChange={setProperty}
+                    onInput={validateField}
+                    onBlur={validateField}
+                    className="border border-[#00000093] w-full h-[3.13rem] rounded-lg px-3 outline-none focus:border-2"
+                    required
+                  />
+                  <span
+                    className={`text-red-600 ${
+                      newUserErrors.phoneNumber ? "block" : "hidden"
+                    }`}
+                  >
+                    Phone number must consist of 11 digits
+                  </span>
+                </div>
+                <div className="md:w-[50%]">
+                  <label
+                    htmlFor="email"
+                    className="text-lg lg:text-xl font-medium text-[#000000d5] inline-block mb-2"
+                  >
+                    Email:
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    value={newUser.email}
+                    onChange={setProperty}
+                    onInput={validateField}
+                    onBlur={validateField}
+                    className="border border-[#00000093] w-full h-[3.13rem] rounded-lg px-3 outline-none focus:border-2"
+                    required
+                  />
+                  <span
+                    className={`text-red-600 ${
+                      newUserErrors.email ? "block" : "hidden"
+                    }`}
+                  >
+                    Enter a valid email address
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-col md:flex-row gap-3 md:gap-5">
+                <div className="md:w-[50%]">
+                  <label
+                    htmlFor="password"
+                    className="text-lg lg:text-xl font-medium text-[#000000d5] inline-block mb-2"
+                  >
+                    Password:
+                  </label>
+                  <div className="relative">
                     <input
-                      type="tel"
-                      id="phoneNumber"
-                      value={newUser.phoneNumber}
+                      type={passwordType}
+                      id="password"
+                      value={newUser.password}
                       onChange={setProperty}
                       onInput={validateField}
                       onBlur={validateField}
-                      className="border border-[#00000093] w-full h-[3.13rem] rounded-lg px-3 outline-none focus:border-2"
+                      ref={passwordView}
+                      className="border border-[#00000093] w-full h-[3.13rem] rounded-lg pl-3 pr-12 outline-none focus:border-2"
                       required
                     />
-                    <span
-                      className={`text-red-600 ${
-                        newUserErrors.phoneNumber ? "block" : "hidden"
-                      }`}
+                    <button
+                      className="absolute right-3 top-[0.62rem] outline-none"
+                      onClick={togglePasswordView}
                     >
-                      Phone number must consist of 11 digits
-                    </span>
-                  </div>
-                  <div className="md:w-[50%]">
-                    <label
-                      htmlFor="email"
-                      className="text-lg lg:text-xl font-medium text-[#000000d5] inline-block mb-2"
-                    >
-                      Email:
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      value={newUser.email}
-                      onChange={setProperty}
-                      onInput={validateField}
-                      onBlur={validateField}
-                      className="border border-[#00000093] w-full h-[3.13rem] rounded-lg px-3 outline-none focus:border-2"
-                      required
-                    />
-                    <span
-                      className={`text-red-600 ${
-                        newUserErrors.email ? "block" : "hidden"
-                      }`}
-                    >
-                      Enter a valid email address
-                    </span>
-                  </div>
-                </div>
-                <div className="flex flex-col md:flex-row gap-3 md:gap-5">
-                  <div className="md:w-[50%]">
-                    <label
-                      htmlFor="password"
-                      className="text-lg lg:text-xl font-medium text-[#000000d5] inline-block mb-2"
-                    >
-                      Password:
-                    </label>
-                    <div className="relative">
-                      <input
-                        type={passwordType}
-                        id="password"
-                        value={newUser.password}
-                        onChange={setProperty}
-                        onInput={validateField}
-                        onBlur={validateField}
-                        ref={passwordView}
-                        className="border border-[#00000093] w-full h-[3.13rem] rounded-lg pl-3 pr-12 outline-none focus:border-2"
-                        required
-                      />
-                      <button
-                        className="absolute right-3 top-[0.62rem] outline-none"
-                        onClick={togglePasswordView}
-                      >
-                        {passwordType === "password" ? (
-                          <AiFillEye className="text-3xl" />
-                        ) : (
-                          <AiFillEyeInvisible className="text-3xl" />
-                        )}
-                      </button>
-                    </div>
-                    <span
-                      className={`text-red-600 ${
-                        newUserErrors.password ? "block" : "hidden"
-                      }`}
-                    >
-                      Must be more than 8 characters, should include upper and
-                      lowercase letters, a number and a special character
-                      (!@#$%)
-                    </span>
-                  </div>
-                  <div className="md:w-[50%]">
-                    <label
-                      htmlFor="confirmPassword"
-                      className="text-lg lg:text-xl font-medium text-[#000000d5] inline-block mb-2"
-                    >
-                      Confirm Password:
-                    </label>
-                    <div className="relative">
-                      <input
-                        type={passwordType}
-                        id="confirmPassword"
-                        value={newUser.confirmPassword}
-                        onChange={setProperty}
-                        onInput={validateField}
-                        onBlur={validateField}
-                        ref={passwordView}
-                        className="border border-[#00000093] w-full h-[3.13rem] rounded-lg pl-3 12 outline-none focus:border-2"
-                        required
-                      />
-                      <button
-                        className="absolute right-3 top-[0.62rem] outline-none"
-                        onClick={togglePasswordView}
-                      >
-                        {passwordType === "password" ? (
-                          <AiFillEye className="text-3xl" />
-                        ) : (
-                          <AiFillEyeInvisible className="text-3xl" />
-                        )}
-                      </button>
-                    </div>
-                    <span
-                      className={`text-red-600 ${
-                        newUserErrors.confirmPassword ? "block" : "hidden"
-                      }`}
-                    >
-                      Must match the password field
-                    </span>
-                  </div>
-                </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      id="terms"
-                      checked={newUser.termsAndCondition}
-                      onChange={(e) =>
-                        setNewUser({
-                          ...newUser,
-                          termsAndCondition: e.currentTarget.checked,
-                        })
-                      }
-                      required
-                    />
-                    <label
-                      htmlFor="terms"
-                      className="text-[0.82rem] md:text-lg"
-                    >
-                      <span>I agree to all the </span>
-                      <Link href="/" className="text-blue-600 font-medium">
-                        Terms, Privacy Policy and Conditions
-                      </Link>
-                    </label>
+                      {passwordType === "password" ? (
+                        <AiFillEye className="text-3xl" />
+                      ) : (
+                        <AiFillEyeInvisible className="text-3xl" />
+                      )}
+                    </button>
                   </div>
                   <span
                     className={`text-red-600 ${
-                      newUserErrors.termsAndCondition ? "block" : "hidden"
+                      newUserErrors.password ? "block" : "hidden"
                     }`}
                   >
-                    Accept Terms, Privacy Policy and Conditions to continue
+                    Must be more than 8 characters, should include upper and
+                    lowercase letters, a number and a special character (!@#$%)
                   </span>
                 </div>
-                <FormButton label="Create Account" className="mt-5 mb-2" />
-                <div className="text-center">
-                  <p className="text-[1.125rem] text-[#000000d5] font-medium">
-                    <span>Already have an account? </span>
-                    <Link href={"/login"} className="text-blue-600">
-                      Log in
-                    </Link>
-                  </p>
+                <div className="md:w-[50%]">
+                  <label
+                    htmlFor="confirmPassword"
+                    className="text-lg lg:text-xl font-medium text-[#000000d5] inline-block mb-2"
+                  >
+                    Confirm Password:
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={passwordType}
+                      id="confirmPassword"
+                      value={newUser.confirmPassword}
+                      onChange={setProperty}
+                      onInput={validateField}
+                      onBlur={validateField}
+                      ref={passwordView}
+                      className="border border-[#00000093] w-full h-[3.13rem] rounded-lg pl-3 12 outline-none focus:border-2"
+                      required
+                    />
+                    <button
+                      className="absolute right-3 top-[0.62rem] outline-none"
+                      onClick={togglePasswordView}
+                    >
+                      {passwordType === "password" ? (
+                        <AiFillEye className="text-3xl" />
+                      ) : (
+                        <AiFillEyeInvisible className="text-3xl" />
+                      )}
+                    </button>
+                  </div>
+                  <span
+                    className={`text-red-600 ${
+                      newUserErrors.confirmPassword ? "block" : "hidden"
+                    }`}
+                  >
+                    Must match the password field
+                  </span>
                 </div>
-              </form>
-            </div>
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="terms"
+                    checked={newUser.termsAndCondition}
+                    onChange={(e) =>
+                      setNewUser({
+                        ...newUser,
+                        termsAndCondition: e.currentTarget.checked,
+                      })
+                    }
+                    required
+                  />
+                  <label htmlFor="terms" className="text-[0.82rem] md:text-lg">
+                    <span>I agree to all the </span>
+                    <Link href="/" className="text-blue-600 font-medium">
+                      Terms, Privacy Policy and Conditions
+                    </Link>
+                  </label>
+                </div>
+                <span
+                  className={`text-red-600 ${
+                    newUserErrors.termsAndCondition ? "block" : "hidden"
+                  }`}
+                >
+                  Accept Terms, Privacy Policy and Conditions to continue
+                </span>
+              </div>
+              <FormButton label="Create Account" className="mt-5 mb-2" />
+              <div className="text-center">
+                <p className="text-[1.125rem] text-[#000000d5] font-medium">
+                  <span>Already have an account? </span>
+                  <Link href={"/login"} className="text-blue-600">
+                    Log in
+                  </Link>
+                </p>
+              </div>
+            </form>
           </div>
         </div>
 
