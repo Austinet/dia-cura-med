@@ -42,7 +42,7 @@ const ForgotPassword = () => {
   return (
     <main>
       <section className="px-5 my-8 lg:my-12 font-Open_Sans">
-        <div className="max-w-[800px] mx-auto md:rounded-[20px] md:shadow-lg md:p-10">
+        <div className="max-w-[600px] mx-auto md:rounded-[20px] md:shadow-lg md:p-10">
           <div>
             {!isSubmitted ? (
               <>

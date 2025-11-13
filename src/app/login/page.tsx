@@ -94,7 +94,7 @@ const Login = () => {
   return (
     <main>
       <section className="px-5 my-8 lg:my-12 font-Open_Sans">
-        <div className="max-w-[800px] mx-auto md:rounded-[20px] md:shadow-lg gap-10 md:p-10">
+        <div className="max-w-[600px] mx-auto md:rounded-[20px] md:shadow-lg gap-10 md:p-10">
           <div className="mb-6 lg:mb-8">
             <h1 className="text-[1.4rem] md:text-[1.7rem] text-[#062D45] font-semibold md:mb-3">
               Login
