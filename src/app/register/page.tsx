@@ -381,7 +381,7 @@ const Register = () => {
                   />
                   <label htmlFor="terms" className="text-[0.82rem] md:text-lg">
                     <span>I agree to all the </span>
-                    <Link href="/" className="text-blue-600 font-medium">
+                    <Link href="/" className="text-[#107bc0] font-medium">
                       Terms, Privacy Policy and Conditions
                     </Link>
                   </label>
@@ -398,7 +398,7 @@ const Register = () => {
               <div className="text-center">
                 <p className="text-[1.125rem] text-[#000000d5] font-medium">
                   <span>Already have an account? </span>
-                  <Link href={"/login"} className="text-blue-600">
+                  <Link href={"/login"} className="text-[#107bc0]">
                     Log in
                   </Link>
                 </p>

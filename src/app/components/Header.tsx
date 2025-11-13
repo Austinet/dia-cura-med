@@ -46,6 +46,7 @@ const Header = () => {
           </ul>
           <Link
             href={"/login"}
+            onClick={() => setOpenMenu(false)}
             className="inline-block bg-[#107bc0] hover:bg-[#9353e5] px-[2.4rem] py-[0.7rem] lg:px-12 lg:py-[0.8rem] rounded-md text-white text-[1.2rem] font-bold hover:opacity-80"
           >
             Login

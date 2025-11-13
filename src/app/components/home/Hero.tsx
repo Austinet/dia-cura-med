@@ -48,7 +48,7 @@ const Hero = () => {
           <h2 className="font-Open-sans font-extrabold text-base lg:text-[24px]">
             Welcome onboard
           </h2>
-          <h1 className="text-[30px] text-[#062D45] leading-11 font-Open-sans font-extrabold lg:leading-[62px] lg:text-[48px] max-w-[530px]">
+          <h1 className="text-[34px] text-[#062D45] leading-11 font-Open-sans font-extrabold lg:leading-[62px] lg:text-[48px] max-w-[530px]">
             Get Expert Medical Help With Diabetes From Us
           </h1>
           <p className="font-normal font-Open-sans text-[#868686] lg:text-[20px]">
