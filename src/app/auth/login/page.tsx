@@ -1,9 +1,9 @@
 "use client";
 
+import FormButton from "@/app/components/ui/FormButton";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import FormButton from "../components/ui/FormButton";
 
 //Default values for user inputs and error checking
 const defaultDetails = {
@@ -190,7 +190,7 @@ const Login = () => {
                 </div>
                 <div>
                   <Link
-                    href="/forgot-password"
+                    href="/auth/forgot-password"
                     className="text-[#107BC0] text-sm md:text-lg md:font-medium"
                   >
                     Forgot password
@@ -201,7 +201,7 @@ const Login = () => {
               <div className="text-center">
                 <p className="text-sm md:text-[1.125rem] text-[#000000d5] font-medium">
                   <span>Don&apos;t have an account? </span>
-                  <Link href={"/get-started"} className="text-[#107BC0]">
+                  <Link href={"/auth/get-started"} className="text-[#107BC0]">
                     Create an account
                   </Link>
                 </p>

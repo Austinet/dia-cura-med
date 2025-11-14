@@ -1,8 +1,8 @@
 // import { useContext } from "react";
 // import UserRoleContext from "../context/UserRoleContext";
 "use client";
+import SelectRole from "@/app/components/auth/SelectRole";
 import { useRouter } from "next/navigation";
-import SelectRole from "../components/auth/SelectRole";
 
 const GetStarted = () => {
   //   const { setRole } = useContext(UserRoleContext);
@@ -10,7 +10,7 @@ const GetStarted = () => {
   const selectRole = (role: string) => {
     console.log(role);
 
-    navigate.push("/register");
+    navigate.push("/auth/register");
   };
   return (
     <main>

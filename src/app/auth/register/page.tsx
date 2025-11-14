@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { FaChevronLeft } from "react-icons/fa6";
-import FormButton from "../components/ui/FormButton";
+import FormButton from "@/app/components/ui/FormButton";
 
 //Default values for user inputs and error checking
 const defaultUser = {
@@ -398,7 +398,7 @@ const Register = () => {
               <div className="text-center">
                 <p className="text-[1.125rem] text-[#000000d5] font-medium">
                   <span>Already have an account? </span>
-                  <Link href={"/login"} className="text-[#107bc0]">
+                  <Link href={"/auth/login"} className="text-[#107bc0]">
                     Log in
                   </Link>
                 </p>

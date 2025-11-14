@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import { FaCheck, FaLock } from "react-icons/fa6";
 import Link from "next/link";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import FormButton from "../components/ui/FormButton";
+import FormButton from "@/app/components/ui/FormButton";
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState({
@@ -205,7 +205,7 @@ const ResetPassword = () => {
                     Log in into your account with your new password.
                   </p>
                   <Link
-                    href="/login"
+                    href="/auth/login"
                     className="w-full inline-block text-white text-center font-bold bg-[#107BC0] hover:bg-[#9353e5] rounded-md text-lg sm:text-[20px] justify-center px-[2rem] py-[0.8rem] my-5"
                   >
                     Login

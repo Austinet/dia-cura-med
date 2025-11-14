@@ -14,7 +14,7 @@ const Testimonials = () => {
             So what are you waiting for? join us now.
           </p>
           <div className="absolute lg:static left-0 bottom-[5.06rem] flex justify-center lg:justify-start w-full">
-            <ButtonLink href="/get-started" label="Get started" />
+            <ButtonLink href="/auth/get-started" label="Get started" />
           </div>
         </div>
         <div className="pb-[6.56rem] flex flex-col lg:flex-row gap-[3.38rem] lg:gap-[0.81rem] items-center lg:pb-[3rem]">

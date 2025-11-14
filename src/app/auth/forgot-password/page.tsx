@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { FaEnvelope, FaLock } from "react-icons/fa6";
-import FormButton from "../components/ui/FormButton";
+import FormButton from "@/app/components/ui/FormButton";
 
 const ForgotPassword = () => {
   const [userEmail, setUserEmail] = useState("");
@@ -109,14 +109,14 @@ const ForgotPassword = () => {
 
             <div>
               <Link
-                href="/login"
+                href="/auth/login"
                 className="w-full inline-block mb-5 text-[#107bc0] hover:text-white font-bold hover:bg-[#107BC0] rounded-md text-lg sm:text-[20px] text-center px-[2rem] py-[0.8rem] border border-[#107bc0]"
               >
                 Back to Login
               </Link>
               <p className="text-sm text-center md:text-[1.125rem] text-[#000000d5] font-medium">
                 <span>Don&apos;t have an account? </span>
-                <Link href={"/get-started"} className="text-[#107BC0]">
+                <Link href={"/auth/get-started"} className="text-[#107BC0]">
                   Create an account
                 </Link>
               </p>

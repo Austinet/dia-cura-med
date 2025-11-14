@@ -58,7 +58,7 @@ const Hero = () => {
           </p>
           <ButtonLink
             label="Get Started"
-            href="/get-started"
+            href="/auth/get-started"
             className="mt-[1rem] lg:mt-[1.5rem]"
           />
         </div>
