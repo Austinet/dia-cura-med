@@ -46,7 +46,7 @@ const socialLinks = [
 const Footer = () => {
   return (
     <footer className="bg-[#094063]">
-      <div className="px-5 py-8 lg:px-8 lg:py-14">
+      <div className="px-5 py-8 lg:px-12 lg:py-14">
         <div className="mb-4 lg:mb-6">
           {/*Footer logo*/}
           <Image

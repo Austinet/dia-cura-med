@@ -33,14 +33,14 @@ const FeaturesRow = ({
           alt={img.alt}
           width={500}
           height={500}
-          className="w-full h-auto md:min-w-[400px] lg:min-w-[500px]"
+          className="w-full h-auto md:min-w-[400px] lg:w-[500px]"
         />
       </figure>
-      <div className="space-y-5 lg:max-w-[590px]">
-        <h2 className="text-[#232323] text-[24px] font-bold font-Open-sans lg:text-[42px] leading-none">
+      <div className="space-y-5 md:max-w-[590px]">
+        <h2 className="text-[#232323] text-[24px] font-bold font-Open-sans lg:text-[38px] leading-none">
           {title}
         </h2>
-        <p className="font-normal font-Open-sans text-[#232323] lg:text-[24px] lg:leading-10">
+        <p className="font-normal font-Open-sans text-[#232323] lg:text-[22px] lg:leading-10">
           {description}
         </p>
         <ButtonLink

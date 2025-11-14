@@ -4,7 +4,7 @@ import Image from "next/image";
 const Hero = () => {
   return (
     <section>
-      <div className="px-5 py-8 flex flex-col gap-4 md:flex-row-reverse md:justify-between md:items-center lg:py-[4rem] lg:px-8">
+      <div className="px-5 py-8 flex flex-col gap-4 md:flex-row-reverse md:justify-between md:items-center lg:py-[4rem] lg:px-12">
         <figure>
           {/* Mobile Screen */}
           <div className="md:hidden relative">

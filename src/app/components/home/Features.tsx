@@ -52,7 +52,7 @@ const featuresList = [
 const Features = () => {
   return (
     <section>
-      <div className="px-5 py-12 lg:px-8 space-y-[5rem] md:py-24 md:space-y-[8.5rem]">
+      <div className="px-5 py-12 lg:px-12 space-y-[5rem] md:py-24 md:space-y-[8.5rem]">
         {featuresList.map((feature) => (
           <FeaturesRow key={feature.id} {...feature} />
         ))}

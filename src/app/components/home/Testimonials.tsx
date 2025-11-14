@@ -5,7 +5,7 @@ import { FaQuoteRight } from "react-icons/fa6";
 const Testimonials = () => {
   return (
     <section>
-      <div className="relative bg-[#F5FBFE] text-center py-[4rem] px-5 lg:flex justify-between items-center lg:gap-[5.62rem] lg:px-8 lg:py-[7rem] lg:text-left">
+      <div className="relative bg-[#F5FBFE] text-center py-[4rem] px-5 lg:flex justify-between items-center lg:gap-[5.62rem] lg:px-12 lg:py-[7rem] lg:text-left">
         <div className="lg:max-w-[29.375rem]">
           <h2 className="text-[1.5rem] text-[#020D14] font-bold mb-[1.5rem] lg:mb-[2.44rem] xl:text-[2.5rem] leading-[1.2]">
             Check out what our clients are saying about us.

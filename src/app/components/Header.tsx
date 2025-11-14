@@ -9,7 +9,7 @@ const Header = () => {
   const [openMenu, setOpenMenu] = useState(false);
 
   return (
-    <header className="p-5 relative flex justify-between items-center lg:px-8 lg:py-8 shadow">
+    <header className="p-5 relative flex justify-between items-center lg:px-12 lg:py-8 shadow">
       {/* Logo container */}
       <Link href={"/"}>
         <Image

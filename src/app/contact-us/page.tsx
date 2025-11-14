@@ -72,7 +72,7 @@ const ContactUs = () => {
   return (
     <main>
       <section>
-        <div className="font-Open-sans px-5 py-8 space-y-6 md:flex justify-between lg:items-center gap-5 lg:px-8 lg:py-18">
+        <div className="font-Open-sans px-5 py-8 space-y-6 md:flex justify-between lg:items-center gap-5 lg:px-12 lg:py-18">
           <div className="max-w-[500px]">
             <h1 className="text-2xl font-bold text-[#062D45] md:text-3xl mb-4 md:mb-8">
               Contact us
