@@ -34,7 +34,11 @@ const OurDoctors = () => {
               suggest improvements to enhance the quality and efficiency of
               healthcare services.
             </p>
-            <ButtonLink href="/" label="Learn more" />
+            <ButtonLink
+              label="Get Started"
+              href="/auth/get-started"
+              className=""
+            />
           </div>
         </div>
         <div className="mt-[2.25rem] lg:mt-[3.75rem] flex items-center justify-between">
