@@ -1,7 +1,7 @@
 const Lorem = () => {
   return (
     <section>
-      <div className="space-y-3 ">
+      <div className="space-y-3" data-aos="fade-up">
         <p className="lg:text-lg">
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas,
           assumenda nemo! Fugit ducimus maiores recusandae officiis eius iste

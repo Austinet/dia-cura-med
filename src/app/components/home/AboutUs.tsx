@@ -40,7 +40,7 @@ const AboutUs = () => {
   return (
     <section className="bg-[#094063] mt-10">
       <div className="px-5 py-10 space-y-8 w-fit mx-auto lg:space-y-12 lg:py-20">
-        <div>
+        <div data-aos="fade-down">
           <h2 className="text-[20px] font-Open-sans font-extrabold text-white text-center lg:text-[36px]">
             Why should you trust us? <br /> Get to know about us.
           </h2>
@@ -52,6 +52,9 @@ const AboutUs = () => {
               <div
                 key={id}
                 className="bg-white text-[#062D45] text-center shadow-lg space-y-2 rounded-lg py-5 px-[0.65rem] max-w-[254px] lg:py-8 lg:px-4 lg:rounded-2xl"
+                data-aos="fade-right"
+                data-aos-anchor-placement="top-center"
+                data-aos-delay={id * 100}
               >
                 <div className="bg-[#CFE5F2] inline-block p-3 text-[20px] rounded-full">
                   {icon}

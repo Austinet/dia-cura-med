@@ -27,7 +27,7 @@ const FeaturesRow = ({
     <section
       className={`flex gap-5 flex-col md:gap-10 md:justify-between md:items-center ${className}`}
     >
-      <figure>
+      <figure data-aos="fade-left" data-aos-delay="150">
         <Image
           src={img.src}
           alt={img.alt}
@@ -36,7 +36,7 @@ const FeaturesRow = ({
           className="w-full h-auto md:min-w-[400px] lg:w-[500px]"
         />
       </figure>
-      <div className="space-y-5 md:max-w-[590px]">
+      <div className="space-y-5 md:max-w-[590px]" data-aos="fade-right">
         <h2 className="text-[#232323] text-[24px] font-bold font-Open-sans lg:text-[38px] leading-none">
           {title}
         </h2>

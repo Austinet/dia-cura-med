@@ -34,6 +34,9 @@ const FAQs = () => {
                 <li
                   key={id}
                   className="p-[1rem] lg:py-[2rem] lg:px-[1.5rem] border border-[#CCC] rounded-[0.25rem] lg:rounded-[0.5rem]"
+                  data-aos="fade-right"
+                  data-aos-anchor-placement="top-center"
+                  data-aos-delay={id * 100}
                 >
                   <h3
                     onClick={() => openAnswer(id)}

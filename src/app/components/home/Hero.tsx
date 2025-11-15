@@ -5,7 +5,7 @@ const Hero = () => {
   return (
     <section>
       <div className="px-5 py-8 flex flex-col gap-4 md:flex-row-reverse md:justify-between md:items-center lg:py-[4rem] lg:px-12">
-        <figure>
+        <figure data-aos="fade-up" data-aos-delay="150">
           {/* Mobile Screen */}
           <div className="md:hidden relative">
             <Image
@@ -44,7 +44,10 @@ const Hero = () => {
           </div>
         </figure>
 
-        <div className="space-y-3.5 max-w-[500px] lg:space-y-5 xl:max-w-[620px] text-center md:text-left">
+        <div
+          className="space-y-3.5 max-w-[500px] lg:space-y-5 xl:max-w-[620px] text-center md:text-left"
+          data-aos="fade-right"
+        >
           <h2 className="font-Open-sans font-extrabold text-base lg:text-[24px]">
             Welcome onboard
           </h2>

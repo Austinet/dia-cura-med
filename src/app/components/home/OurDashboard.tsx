@@ -4,7 +4,10 @@ const OurDashboard = () => {
   return (
     <section>
       <div className="bg-[#094063] px-5 py-[3rem] lg:px-[2.19rem] lg:pt-[5.31rem] lg:pb-[7.06rem] space-y-[2.5rem] lg:gap-[6rem] text-center">
-        <div className="text-white max-w-[56.75rem] mx-auto">
+        <div
+          className="text-white max-w-[56.75rem] mx-auto"
+          data-aos="fade-down"
+        >
           <h2 className="text-[1.5rem] font-bold leading-normal mb-[1.2rem] lg:text-[3rem] lg:font-extrabold">
             Our Dashboard
           </h2>
@@ -14,7 +17,7 @@ const OurDashboard = () => {
             even health education
           </p>
         </div>
-        <div>
+        <div data-aos="fade-up" data-aos-delay="100">
           <Image
             src="/images/home/dashboard.png"
             alt="Dashboard for users"

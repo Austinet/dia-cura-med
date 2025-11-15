@@ -1,13 +1,31 @@
+"use client";
 import Image from "next/image";
 import Lorem from "../components/home/Lorem";
 import { featuresList } from "../constants/constants";
 import ButtonLink from "../components/ui/ButtonLink";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 
-const page = () => {
+const Services = () => {
+  useEffect(() => {
+    const initAOS = async () => {
+      await import("aos");
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        anchorPlacement: "top-bottom",
+      });
+    };
+
+    initAOS();
+  }, []);
+
   return (
     <main className="px-5 pt-4 lg:px-12 lg:pt-8 max-w-[1000px] mx-auto">
       <section>
-        <div className="text-center">
+        <div className="text-center" data-aos="fade-down">
           <h1 className="text-2xl font-bold text-[#062D45] md:text-3xl mb-4 md:mb-8">
             Services
           </h1>
@@ -17,7 +35,7 @@ const page = () => {
         const { id, img, title, description } = service;
         return (
           <section key={id} className="space-y-5 mb-[4rem] md:space-y-7">
-            <figure>
+            <figure data-aos="fade-down">
               <Image
                 src={img.src}
                 alt={img.alt}
@@ -26,7 +44,11 @@ const page = () => {
                 className="w-full h-auto max-h-[550px] object-cover object-left-top "
               />
             </figure>
-            <div className="space-y-3 md:space-y-5">
+            <div
+              className="space-y-3 md:space-y-5"
+              data-aos="fade-up"
+              data-aos-delay="100"
+            >
               <h2 className="text-[#232323] text-[24px] font-bold font-Open-sans lg:text-[38px] leading-none">
                 {title}
               </h2>
@@ -47,4 +69,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Services;

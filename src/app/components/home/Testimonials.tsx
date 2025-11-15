@@ -18,7 +18,10 @@ const Testimonials = () => {
           </div>
         </div>
         <div className="pb-[6.56rem] flex flex-col lg:flex-row gap-[3.38rem] lg:gap-[0.81rem] items-center lg:pb-[3rem]">
-          <div className="relative z-20 bg-white w-[19.625rem] rounded-[2.375rem] shadow-testimonialBox shadow px-[2rem] pt-[6.81rem] text-center">
+          <div
+            className="relative z-20 bg-white w-[19.625rem] rounded-[2.375rem] shadow-testimonialBox shadow px-[2rem] pt-[6.81rem] text-center"
+            data-aos="zoom-in"
+          >
             <div className="flex flex-col gap-[0.69rem] items-center mb-[0.81rem] absolute top-[-1.88rem] left-0 w-full">
               <Image
                 src="/images/home/testimony.svg"
@@ -40,7 +43,11 @@ const Testimonials = () => {
               </p>
             </div>
           </div>
-          <div className="relative z-20 bg-white w-[19.625rem] rounded-[2.375rem] shadow-testimonialBox shadow px-[2rem] pt-[6.81rem] text-center">
+          <div
+            className="relative z-20 bg-white w-[19.625rem] rounded-[2.375rem] shadow-testimonialBox shadow px-[2rem] pt-[6.81rem] text-center"
+            data-aos="zoom-in"
+            data-aos-delay="100"
+          >
             <div className="flex flex-col gap-[0.69rem] items-center mb-[0.81rem] absolute top-[-1.88rem] left-0 w-full">
               <Image
                 src="/images/home/testimony1.svg"
