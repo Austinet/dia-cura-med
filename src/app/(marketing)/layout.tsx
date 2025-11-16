@@ -13,7 +13,10 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "DiaCura Med",
+  title: {
+    default: "DiaCura Med",
+    template: "DiaCura Med | %s",
+  },
   description:
     "Welcome to DiaCura-Med, redefining diabetes management. Discover personalized solutions, expert guidance, and a supportive community. Take control with intuitive tools. Your wellness starts here.",
 };

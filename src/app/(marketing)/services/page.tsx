@@ -3,6 +3,11 @@ import Lorem from "../../../components/services/lorem";
 import { featuresList } from "../../../constants/constants";
 import ButtonLink from "../../../components/ui/button-link";
 import AnimateOnScroll from "@/components/animation/animate-on-scroll";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Services",
+};
 
 const Services = () => {
   return (
