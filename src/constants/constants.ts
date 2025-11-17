@@ -182,6 +182,6 @@ export const doctors = [
             individuals, organizations, or healthcare facilities. Evaluate
             and suggest improvements to enhance the quality and efficiency
             of healthcare services.`,
-    picture: "/images/home/doctor-2.png",
+    picture: "/images/home/smiling-doctor.jpg",
   },
 ];
