@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 //Default values for user inputs and error checking
 const defaultDetails = {
@@ -13,14 +14,9 @@ const defaultDetails = {
   keepLoggedIn: false,
 };
 
-const defaultUserErrors = {
-  email: false,
-  password: false,
-};
-
 const LoginForm = () => {
   const [userLogin, setUserLogin] = useState(defaultDetails);
-  const [userLoginErrors, setUserLoginErrors] = useState(defaultUserErrors);
+  const [serverResponse, setServerResponse] = useState("");
   const [passwordType, setPasswordType] = useState("password");
   const passwordView = useRef<HTMLInputElement>(null!);
   const router = useRouter();
@@ -53,30 +49,23 @@ const LoginForm = () => {
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Login failed");
+      if (!res.ok) {
+        setServerResponse(data.message);
+        throw new Error(data.message || "Login failed");
+      }
+
+      toast.success("Logged in successfully");
 
       // Save token in localStorage or cookies (simplest for now)
       // localStorage.setItem("diacura_token", data.token);
       console.log(data);
-      alert("Login successful!");
 
       // Redirect based on role
       if (data.user.role === "doctor") router.push("/dashboard/doctor");
       else router.push("/dashboard/patient");
-    } catch (err: any) {
-      alert(err.message);
+    } catch (error: any) {
+      toast.error(error.message);
     }
-
-    // if (authenticate) {
-    //   if (authenticate.password === userLogin.password) {
-    //     dispatch({ type: "USER_LOGGED_IN", payload: userLogin });
-    //     navigate("/dashboard");
-    //   } else {
-    //     setUserLoginErrors({ ...userLoginErrors, password: true });
-    //   }
-    // } else {
-    //   setUserLoginErrors({ ...userLoginErrors, email: true });
-    // }
   };
 
   return (
@@ -89,6 +78,7 @@ const LoginForm = () => {
           <p className="text-lg text-[#3891CA]">
             Login to access your dashboard
           </p>
+          <p className="text-red-600 text-lg">{serverResponse}</p>
         </div>
         <div>
           <form onSubmit={handleSubmit}>
@@ -106,16 +96,10 @@ const LoginForm = () => {
                   value={userLogin.email}
                   onChange={setProperty}
                   id="email"
+                  placeholder="example@gmail.com"
                   className="border border-[#00000093] w-full h-[3.13rem] md:h-[3.25rem] rounded-lg px-3 outline-none focus:border-2"
                   required
                 />
-                <span
-                  className={`text-red-600 ${
-                    userLoginErrors.email ? "block" : "hidden"
-                  }`}
-                >
-                  Email not found, please sign up
-                </span>
               </div>
               <div>
                 <label
@@ -145,13 +129,6 @@ const LoginForm = () => {
                     )}
                   </button>
                 </div>
-                <span
-                  className={`text-red-600 ${
-                    userLoginErrors.password ? "block" : "hidden"
-                  }`}
-                >
-                  Incorrect password
-                </span>
               </div>
             </div>
             <div className="flex items-center justify-between flex-wrap gap-1">
@@ -196,13 +173,6 @@ const LoginForm = () => {
           </form>
         </div>
       </div>
-
-      {/* Successful registration overlay */}
-      {/* <Toast
-            message="Registered Successfully"
-            closeForm={() => navigate.push("/login")}
-            success={success}
-          /> */}
     </section>
   );
 };

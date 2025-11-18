@@ -155,6 +155,7 @@ const RegisterForm = () => {
                   onChange={setProperty}
                   onInput={validateField}
                   onBlur={validateField}
+                  placeholder="Enter your first name"
                   className="border border-[#00000093] w-full h-[3.13rem] rounded-lg px-3 outline-none focus:border-2"
                   required
                 />
@@ -178,6 +179,7 @@ const RegisterForm = () => {
                   onChange={setProperty}
                   onInput={validateField}
                   onBlur={validateField}
+                  placeholder="Enter your last name"
                   className="border border-[#00000093] w-full h-[3.13rem] rounded-lg px-3 outline-none focus:border-2"
                   required
                 />
@@ -203,6 +205,7 @@ const RegisterForm = () => {
                   onChange={setProperty}
                   onInput={validateField}
                   onBlur={validateField}
+                  placeholder="08120000000"
                   className="border border-[#00000093] w-full h-[3.13rem] rounded-lg px-3 outline-none focus:border-2"
                   required
                 />
@@ -226,6 +229,7 @@ const RegisterForm = () => {
                   onChange={setProperty}
                   onInput={validateField}
                   onBlur={validateField}
+                  placeholder="example@gmail.com"
                   className="border border-[#00000093] w-full h-[3.13rem] rounded-lg px-3 outline-none focus:border-2"
                   required
                 />
