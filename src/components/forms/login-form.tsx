@@ -4,6 +4,7 @@ import FormButton from "../ui/form-button";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { useRouter } from "next/navigation";
 
 //Default values for user inputs and error checking
 const defaultDetails = {
@@ -22,6 +23,7 @@ const LoginForm = () => {
   const [userLoginErrors, setUserLoginErrors] = useState(defaultUserErrors);
   const [passwordType, setPasswordType] = useState("password");
   const passwordView = useRef<HTMLInputElement>(null!);
+  const router = useRouter();
 
   // Set form property values
   const setProperty = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,12 +40,32 @@ const LoginForm = () => {
   };
 
   //Validates user and makes login requests
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // const authenticate = usersDB?.find(
-    //   (user) => user.email === userLogin.email
-    // );
+    const { email, password } = userLogin;
+    const user = { email, password };
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Login failed");
+
+      // Save token in localStorage or cookies (simplest for now)
+      // localStorage.setItem("diacura_token", data.token);
+      console.log(data);
+      alert("Login successful!");
+
+      // Redirect based on role
+      if (data.user.role === "doctor") router.push("/dashboard/doctor");
+      else router.push("/dashboard/patient");
+    } catch (err: any) {
+      alert(err.message);
+    }
 
     // if (authenticate) {
     //   if (authenticate.password === userLogin.password) {
@@ -56,40 +78,6 @@ const LoginForm = () => {
     //   setUserLoginErrors({ ...userLoginErrors, email: true });
     // }
   };
-
-  // const handleRegistration = async () => {
-  //   console.log(username, email, password, passwordConfirm, role);
-  //   if (isFormValid) {
-  //     try {
-  //       const response = await axios.post(
-  //         "https://diacura-med.onrender.com/api/auth/register",
-  //         {
-  //           username,
-  //           email,
-  //           password,
-  //           confirm_password: passwordConfirm,
-  //           role,
-  //         },
-  //         {
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //         }
-  //       );
-
-  //       if (response.status === 200 || response.status === 201) {
-  //         console.log("Registration successful!");
-  //         // Redirect the user to the login page
-  //       } else {
-  //         console.error("Registration failed:", response.data);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error during registration:", error);
-  //     }
-  //   } else {
-  //     console.error("Invalid form data");
-  //   }
-  // };
 
   return (
     <section className="px-5 my-8 lg:my-12 font-Open_Sans">

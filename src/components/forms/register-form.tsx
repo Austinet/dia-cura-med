@@ -1,47 +1,37 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
 import { FaChevronLeft } from "react-icons/fa6";
 import FormButton from "../ui/form-button";
-
-//Default values for user inputs and error checking
-const defaultUser = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  phoneNumber: "",
-  password: "",
-  confirmPassword: "",
-  termsAndCondition: false,
-};
-
-const defaultUserErrors = {
-  firstName: false,
-  lastName: false,
-  email: false,
-  phoneNumber: false,
-  password: false,
-  confirmPassword: false,
-  termsAndCondition: false,
-};
+import toast from "react-hot-toast";
+import { defaultUser, defaultUserErrors } from "@/constants/constants";
+import PasswordInput from "../ui/PasswordInput";
 
 const RegisterForm = () => {
-  // const [success, setSuccess] = useState(false);
   const [newUser, setNewUser] = useState(defaultUser);
-  const [passwordType, setPasswordType] = useState("password");
   const [newUserErrors, setNewUserErrors] = useState(defaultUserErrors);
-  // const { dispatch, usersDB } = useAuthContext();
-  const passwordView = useRef<HTMLInputElement>(null!);
-  const navigate = useRouter();
-  const role = "";
+  const [serverResponse, setServerResponse] = useState("");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const role = "patient";
 
   const NAME_REGEX = /^[a-zA-Z][a-zA-Z]{2,}$/;
   const PASSWORD_REGEX =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
   const PHONE_REGEX = /^\d{11}$/;
+
+  //Check for role
+  useEffect(() => {
+    const role = searchParams.get("role");
+    if (!role || !["patient", "doctor"].includes(role)) {
+      router.replace("/get-started");
+      return;
+    }
+
+    setNewUser({ ...newUser, role });
+  }, [searchParams, router]);
 
   // Set form property values
   const setProperty = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,12 +39,6 @@ const RegisterForm = () => {
       ...newUser,
       [e.target.id]: e.target.value.trim(),
     });
-  };
-
-  //Toggles the password view from hidden to seen for the user
-  const togglePasswordView = () => {
-    const type = passwordView.current.type === "password" ? "text" : "password";
-    setPasswordType(type);
   };
 
   //Validates user inputs fields
@@ -95,69 +79,44 @@ const RegisterForm = () => {
   }
 
   //Validates user inputs and makes sign up requests
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validateForm()) {
-      // if (usersDB?.some((users) => users.phoneNumber === newUser.phoneNumber)) {
-      //   alert("Phone number already used");
-      //   return;
-      // }
+    if (!validateForm()) {
+      return;
+    }
 
-      // if (usersDB?.some((users) => users.email === newUser.email)) {
-      //   alert("Email address already used");
-      //   return;
-      // }
+    const { firstName, lastName, email, phoneNumber, password } = newUser;
+    const user = { firstName, lastName, email, phoneNumber, password, role };
 
-      // dispatch({ type: "ADD_USER", payload: newUser });
-      // setSuccess(true);
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "appication/json",
+        },
+        body: JSON.stringify(user),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setServerResponse(data.message);
+        throw new Error(data.message || "Registration failed");
+      }
+
+      toast.success("Registered successfully");
+      router.push("/login");
 
       // Reset
-
-      const { firstName, lastName, email, phoneNumber, password } = newUser;
-      const user = { firstName, lastName, email, phoneNumber, password, role };
-      console.log(user);
       setNewUser(defaultUser);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 
   // Go to previous page
   const goBack = () => {
-    navigate.push("/get-started");
+    router.push("/get-started");
   };
-
-  // const handleRegistration = async () => {
-  //   console.log(username, email, password, passwordConfirm, role);
-  //   if (isFormValid) {
-  //     try {
-  //       const response = await axios.post(
-  //         "https://diacura-med.onrender.com/api/auth/register",
-  //         {
-  //           username,
-  //           email,
-  //           password,
-  //           confirm_password: passwordConfirm,
-  //           role,
-  //         },
-  //         {
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //         }
-  //       );
-
-  //       if (response.status === 200 || response.status === 201) {
-  //         console.log("Registration successful!");
-  //         // Redirect the user to the login page
-  //       } else {
-  //         console.error("Registration failed:", response.data);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error during registration:", error);
-  //     }
-  //   } else {
-  //     console.error("Invalid form data");
-  //   }
-  // };
 
   return (
     <section className="px-5 mb-8 lg:mb-12 font-Open_Sans">
@@ -199,13 +158,11 @@ const RegisterForm = () => {
                   className="border border-[#00000093] w-full h-[3.13rem] rounded-lg px-3 outline-none focus:border-2"
                   required
                 />
-                <span
-                  className={`text-red-600 ${
-                    newUserErrors.firstName ? "block" : "hidden"
-                  }`}
-                >
-                  Must be more than 2 characters, letters only
-                </span>
+                {newUserErrors.firstName && (
+                  <span className="text-red-600">
+                    Must be more than 2 characters, letters only
+                  </span>
+                )}
               </div>
               <div className="md:w-[50%]">
                 <label
@@ -224,13 +181,11 @@ const RegisterForm = () => {
                   className="border border-[#00000093] w-full h-[3.13rem] rounded-lg px-3 outline-none focus:border-2"
                   required
                 />
-                <span
-                  className={`text-red-600 ${
-                    newUserErrors.lastName ? "block" : "hidden"
-                  }`}
-                >
-                  Must be more than 2 characters, letters only
-                </span>
+                {newUserErrors.lastName && (
+                  <span className="text-red-600">
+                    Must be more than 2 characters, letters only
+                  </span>
+                )}
               </div>
             </div>
             <div className="flex flex-col md:flex-row gap-3 md:gap-5">
@@ -251,13 +206,11 @@ const RegisterForm = () => {
                   className="border border-[#00000093] w-full h-[3.13rem] rounded-lg px-3 outline-none focus:border-2"
                   required
                 />
-                <span
-                  className={`text-red-600 ${
-                    newUserErrors.phoneNumber ? "block" : "hidden"
-                  }`}
-                >
-                  Phone number must consist of 11 digits
-                </span>
+                {newUserErrors.phoneNumber && (
+                  <span className="text-red-600">
+                    Phone number must consist of 11 digits
+                  </span>
+                )}
               </div>
               <div className="md:w-[50%]">
                 <label
@@ -276,92 +229,33 @@ const RegisterForm = () => {
                   className="border border-[#00000093] w-full h-[3.13rem] rounded-lg px-3 outline-none focus:border-2"
                   required
                 />
-                <span
-                  className={`text-red-600 ${
-                    newUserErrors.email ? "block" : "hidden"
-                  }`}
-                >
-                  Enter a valid email address
-                </span>
+                {newUserErrors.email && (
+                  <span className="text-red-600">
+                    Enter a valid email address
+                  </span>
+                )}
               </div>
             </div>
             <div className="flex flex-col md:flex-row gap-3 md:gap-5">
               <div className="md:w-[50%]">
-                <label
-                  htmlFor="password"
-                  className="text-lg lg:text-xl font-medium text-[#000000d5] inline-block mb-2"
-                >
-                  Password:
-                </label>
-                <div className="relative">
-                  <input
-                    type={passwordType}
-                    id="password"
-                    value={newUser.password}
-                    onChange={setProperty}
-                    onInput={validateField}
-                    onBlur={validateField}
-                    ref={passwordView}
-                    className="border border-[#00000093] w-full h-[3.13rem] rounded-lg pl-3 pr-12 outline-none focus:border-2"
-                    required
-                  />
-                  <button
-                    className="absolute right-3 top-[0.62rem] outline-none"
-                    onClick={togglePasswordView}
-                  >
-                    {passwordType === "password" ? (
-                      <AiFillEye className="text-3xl" />
-                    ) : (
-                      <AiFillEyeInvisible className="text-3xl" />
-                    )}
-                  </button>
-                </div>
-                <span
-                  className={`text-red-600 ${
-                    newUserErrors.password ? "block" : "hidden"
-                  }`}
-                >
-                  Must be more than 8 characters, should include upper and
-                  lowercase letters, a number and a special character (!@#$%)
-                </span>
+                <PasswordInput
+                  id="password"
+                  label="Password"
+                  value={newUser.password}
+                  setProperty={setProperty}
+                  validateField={validateField}
+                  passwordErrors={newUserErrors.password}
+                />
               </div>
               <div className="md:w-[50%]">
-                <label
-                  htmlFor="confirmPassword"
-                  className="text-lg lg:text-xl font-medium text-[#000000d5] inline-block mb-2"
-                >
-                  Confirm Password:
-                </label>
-                <div className="relative">
-                  <input
-                    type={passwordType}
-                    id="confirmPassword"
-                    value={newUser.confirmPassword}
-                    onChange={setProperty}
-                    onInput={validateField}
-                    onBlur={validateField}
-                    ref={passwordView}
-                    className="border border-[#00000093] w-full h-[3.13rem] rounded-lg pl-3 12 outline-none focus:border-2"
-                    required
-                  />
-                  <button
-                    className="absolute right-3 top-[0.62rem] outline-none"
-                    onClick={togglePasswordView}
-                  >
-                    {passwordType === "password" ? (
-                      <AiFillEye className="text-3xl" />
-                    ) : (
-                      <AiFillEyeInvisible className="text-3xl" />
-                    )}
-                  </button>
-                </div>
-                <span
-                  className={`text-red-600 ${
-                    newUserErrors.confirmPassword ? "block" : "hidden"
-                  }`}
-                >
-                  Must match the password field
-                </span>
+                <PasswordInput
+                  id="confirmPassword"
+                  label="Confirm Password"
+                  value={newUser.confirmPassword}
+                  setProperty={setProperty}
+                  validateField={validateField}
+                  passwordErrors={newUserErrors.confirmPassword}
+                />
               </div>
             </div>
             <div>
@@ -385,13 +279,6 @@ const RegisterForm = () => {
                   </Link>
                 </label>
               </div>
-              <span
-                className={`text-red-600 ${
-                  newUserErrors.termsAndCondition ? "block" : "hidden"
-                }`}
-              >
-                Accept Terms, Privacy Policy and Conditions to continue
-              </span>
             </div>
             <FormButton label="Create Account" className="mt-5 mb-2" />
             <div className="text-center">
@@ -401,17 +288,11 @@ const RegisterForm = () => {
                   Log in
                 </Link>
               </p>
+              <p className="text-red-600">{serverResponse}</p>
             </div>
           </form>
         </div>
       </div>
-
-      {/* Successful registration overlay */}
-      {/* <Toast
-            message="Registered Successfully"
-            closeForm={() => navigate.push("/login")}
-            success={success}
-          /> */}
     </section>
   );
 };

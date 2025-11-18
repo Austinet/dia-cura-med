@@ -1,8 +1,8 @@
 import Image from "next/image";
 
 type SelectRoleProps = {
-  selectRole: (role: string) => void;
-  role: "PATIENT" | "DOCTOR";
+  selectRole: (role: "patient" | "doctor") => void;
+  role: "patient" | "doctor";
   label: string;
   description: string;
 };

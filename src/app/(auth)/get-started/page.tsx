@@ -1,16 +1,12 @@
-// import { useContext } from "react";
-// import UserRoleContext from "../context/UserRoleContext";
 "use client";
+
 import SelectRole from "@/components/auth/select-role";
 import { useRouter } from "next/navigation";
 
 const GetStarted = () => {
-  //   const { setRole } = useContext(UserRoleContext);
   const navigate = useRouter();
-  const selectRole = (role: string) => {
-    console.log(role);
-
-    navigate.push("/register");
+  const selectRole = (role: "patient" | "doctor") => {
+    navigate.push(`/register?role=${role}`);
   };
   return (
     <main>
@@ -27,14 +23,14 @@ const GetStarted = () => {
           <div className="max-w-[1000px] mx-auto flex justify-between gap-4 lg:gap-16 my-5">
             <SelectRole
               selectRole={selectRole}
-              role="PATIENT"
+              role="patient"
               label="Patients"
               description="get access to Doctor's, get personalized Treatment plans, Blood Sugar
                 monitoring, download medical reports"
             />
             <SelectRole
               selectRole={selectRole}
-              role="DOCTOR"
+              role="doctor"
               label="Doctors"
               description="monitor the treatment plans of patients, reschedule consultations, edit
                 medical report, attend to emergencies"

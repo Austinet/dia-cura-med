@@ -185,3 +185,24 @@ export const doctors = [
     picture: "/images/home/smiling-doctor.jpg",
   },
 ];
+
+//Default values for register user inputs and error checking
+export const defaultUser = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  phoneNumber: "",
+  password: "",
+  confirmPassword: "",
+  role: "",
+  termsAndCondition: false,
+};
+
+export const defaultUserErrors = {
+  firstName: false,
+  lastName: false,
+  email: false,
+  phoneNumber: false,
+  password: false,
+  confirmPassword: false,
+};
