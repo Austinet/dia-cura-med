@@ -47,17 +47,34 @@ export async function POST(req: NextRequest) {
       email: user.email,
     });
 
-    return NextResponse.json({
-      message: "Login successful",
-      user: {
-        id: user._id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        role: user.role,
-      },
-      token,
+    // set HttpOnly cookie
+    const res = NextResponse.json({
+      success: true,
+      role: user.role,
     });
+
+    res.cookies.set({
+      name: "auth_token",
+      value: token,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      sameSite: "lax",
+      maxAge: 60 * 60 * 24, // 1 day
+    });
+    return res;
+
+    // return NextResponse.json({
+    //   message: "Login successful",
+    //   user: {
+    //     id: user._id,
+    //     firstName: user.firstName,
+    //     lastName: user.lastName,
+    //     email: user.email,
+    //     role: user.role,
+    //   },
+    //   token,
+    // });
   } catch (err) {
     console.error(err);
     return NextResponse.json(

@@ -17,6 +17,7 @@ const defaultDetails = {
 const LoginForm = () => {
   const [userLogin, setUserLogin] = useState(defaultDetails);
   const [serverResponse, setServerResponse] = useState("");
+  const [loading, setLoading] = useState(false);
   const [passwordType, setPasswordType] = useState("password");
   const passwordView = useRef<HTMLInputElement>(null!);
   const router = useRouter();
@@ -38,6 +39,7 @@ const LoginForm = () => {
   //Validates user and makes login requests
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     const { email, password } = userLogin;
     const user = { email, password };
@@ -51,20 +53,33 @@ const LoginForm = () => {
       const data = await res.json();
       if (!res.ok) {
         setServerResponse(data.message);
+        setLoading(false);
         throw new Error(data.message || "Login failed");
       }
 
       toast.success("Logged in successfully");
 
+      switch (data.role) {
+        case "patient":
+          router.push("/dashboard/patient");
+          break;
+        case "doctor":
+          router.push("/dashboard/doctor");
+          break;
+        default:
+          router.push("/dashboard/admin");
+          break;
+      }
+
       // Save token in localStorage or cookies (simplest for now)
       // localStorage.setItem("diacura_token", data.token);
-      console.log(data);
 
       // Redirect based on role
-      if (data.user.role === "doctor") router.push("/dashboard/doctor");
-      else router.push("/dashboard/patient");
+      // if (data.user.role === "doctor") router.push("/dashboard/doctor");
+      // else router.push("/dashboard/patient");
     } catch (error: any) {
       toast.error(error.message);
+      setLoading(false);
     }
   };
 
