@@ -1,7 +1,12 @@
-import React from "react";
+import LogoutButton from "@/app/(auth)/logout/page";
 
 const PatientDashboard = () => {
-  return <div>PatientDashboard</div>;
+  return (
+    <div>
+      <p>PatientDashboard</p>
+      <LogoutButton />
+    </div>
+  );
 };
 
 export default PatientDashboard;

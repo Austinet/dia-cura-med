@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { verifyToken } from "@/lib/jwt";
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const token = req.cookies.get("auth_token")?.value;
   const { pathname } = req.nextUrl;
 
@@ -23,8 +23,8 @@ export function middleware(req: NextRequest) {
   if (publicPaths.includes(pathname)) {
     return NextResponse.next();
   }
-  if (publicPaths.some((path) => pathname.startsWith(path)))
-    return NextResponse.next();
+  // if (publicPaths.some((path) => pathname.startsWith(path)))
+  //   return NextResponse.next();
 
   // If accessing protected areas without token => redirect to login
   if (!token) {
@@ -40,7 +40,7 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  const payload: any = verifyToken(token);
+  const payload: any = await verifyToken(token);
   if (!payload) {
     // invalid token -> redirect to login when hitting protected areas
     if (
