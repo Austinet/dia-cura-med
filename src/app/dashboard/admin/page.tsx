@@ -1,11 +1,10 @@
-import LogoutButton from "@/app/(auth)/logout/page";
+import DashboardWrapper from "@/components/dashboard/dashboard-wrapper";
 
 const AdminDashboard = () => {
   return (
-    <div>
+    <DashboardWrapper role="admin" title="Dashboard">
       <p>AdminDashboard</p>
-      <LogoutButton />
-    </div>
+    </DashboardWrapper>
   );
 };
 
