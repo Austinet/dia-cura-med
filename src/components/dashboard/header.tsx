@@ -2,21 +2,19 @@
 
 import Image from "next/image";
 import { Dispatch, SetStateAction, useState } from "react";
-import { FaBars, FaBell } from "react-icons/fa6";
-import { IoClose, IoMenu } from "react-icons/io5";
+import { FaBell } from "react-icons/fa6";
+import { IoMenu } from "react-icons/io5";
 
 type HeaderProp = {
-  openMenu: boolean;
   setOpenMenu: Dispatch<SetStateAction<boolean>>;
   role: "patient" | "doctor" | "admin";
 };
-const Header = ({ openMenu, setOpenMenu, role }: HeaderProp) => {
-  // const [openMenu, setOpenMenu] = useState(false);
+const Header = ({ setOpenMenu, role }: HeaderProp) => {
   const [openProfile, setOpenProfile] = useState(false);
 
   return (
     <>
-      <header className="p-5 relative w-full flex justify-between items-center lg:px-12 lg:py-8 shadow">
+      <header className="p-5 relative w-full flex justify-between items-center lg:p-8 shadow">
         {/* Logo container mobile */}
         <div className="flex items-center gap-[0.7rem]">
           {/* Menu icon for mobile */}
@@ -44,7 +42,7 @@ const Header = ({ openMenu, setOpenMenu, role }: HeaderProp) => {
         <div className="flex items-center gap-3">
           <div className="relative flex w-[2.818rem] h-[3rem] bg-transparent-blue items-center justify-center rounded-[0.5rem]">
             <FaBell className="text-2xl lg:text-4xl" />
-            <p className="px-2 py-2 rounded-full bg-red-500 absolute top-[0.7rem] right-[0.7rem]"></p>
+            <p className="px-2 py-2 rounded-full bg-red-500 absolute top-[0.3rem] right-[0.7rem]"></p>
           </div>
           <div onClick={() => setOpenProfile(!openProfile)}>
             <Image
@@ -52,7 +50,7 @@ const Header = ({ openMenu, setOpenMenu, role }: HeaderProp) => {
               alt="profile picture"
               width={120}
               height={38}
-              className="rounded-full w-[2.5rem] h-[2.5rem] lg:w-[5rem] lg:h-[5rem]"
+              className="rounded-full w-[2.5rem] h-[2.5rem] lg:w-[4rem] lg:h-[4rem]"
               priority
             />
           </div>
@@ -73,20 +71,11 @@ const Header = ({ openMenu, setOpenMenu, role }: HeaderProp) => {
               {role.charAt(0).toLocaleUpperCase() + role.slice(1)}
               Admin
             </p>
-
-            <button className="lg:hidden">View profile</button>
-            <button className="lg:hidden">Logout</button>
+            <button className="lg:hidden inline-flex">View profile</button>
+            <button className="lg:hidden inline-flex">Logout</button>
           </div>
         </div>
       </header>
-      {/* header */}
-      {/* <header>
-        <div className="flex lg:justify-between items-center md:py-[0.88rem] py-[1.5rem] md:mb-[1rem]">
-          <h1 className="mb-[1.5rem] text-[1.25rem] lg:text-[2.25rem] text-[#020D14] font-semibold leading-normal">
-            {activeTab === "Content upload" ? "User Management" : activeTab}
-          </h1>
-        </div>
-      </header> */}
     </>
   );
 };

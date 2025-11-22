@@ -31,7 +31,7 @@ const DashboardWrapper = ({ children, role, title }: Props) => {
     {
       href: `/dashboard/${role}/`,
       label: "Dashboard",
-      icon: <TbLayoutGrid className="text-[1.8rem]" />,
+      icon: <TbLayoutGrid className="text-[1.7rem]" />,
     },
     ...(role === "doctor"
       ? [
@@ -42,7 +42,7 @@ const DashboardWrapper = ({ children, role, title }: Props) => {
           {
             href: "/dashboard/doctor/appointments",
             label: "Appointments",
-            icon: <HiClipboardCheck className="text-[1.8rem]" />,
+            icon: <HiClipboardCheck className="text-[1.7rem]" />,
           },
           {
             href: "/dashboard/doctor/messages",
@@ -51,7 +51,7 @@ const DashboardWrapper = ({ children, role, title }: Props) => {
           {
             href: "/dashboard/doctor/settings",
             label: "Settings",
-            icon: <HiOutlineCog className="text-[1.8rem]" />,
+            icon: <HiOutlineCog className="text-[1.7rem]" />,
           },
         ]
       : role === "patient"
@@ -67,7 +67,7 @@ const DashboardWrapper = ({ children, role, title }: Props) => {
           {
             href: "/dashboard/patient/appointments",
             label: "Appointments",
-            icon: <HiClipboardCheck className="text-[1.8rem]" />,
+            icon: <HiClipboardCheck className="text-[1.7rem]" />,
           },
           {
             href: "/dashboard/patient/messages",
@@ -80,46 +80,46 @@ const DashboardWrapper = ({ children, role, title }: Props) => {
         ]
       : [
           {
-            href: "/dashboard/admin/users-management/",
+            href: "/dashboard/admin/users-management",
             label: "Users Management",
-            icon: <HiUserGroup className="text-[1.8rem]" />,
+            icon: <HiUserGroup className="text-[1.7rem]" />,
             subTabs: [
-              {
-                href: "/dashboard/admin/users-management/doctors",
-                label: "Doctors",
-                icon: <LuCross className="text-[1.8rem]" />,
-              },
               {
                 href: "/dashboard/admin/users-management/patients",
                 label: "Patients",
-                icon: <HiOutlineUsers className="text-[1.8rem]" />,
+                icon: <HiOutlineUsers className="text-[1.7rem]" />,
               },
               {
-                href: "/dashboard/admin/users-management/content",
-                label: "Content",
-                icon: <HiOutlineFolderOpen className="text-[1.8rem]" />,
+                href: "/dashboard/admin/users-management/doctors",
+                label: "Doctors",
+                icon: <LuCross className="text-[1.7rem]" />,
               },
             ],
           },
           {
+            href: "/dashboard/admin/content-management",
+            label: "Content Management",
+            icon: <HiOutlineFolderOpen className="text-[1.7rem]" />,
+          },
+          {
             href: "/dashboard/admin/appointments",
             label: "Appointments",
-            icon: <HiClipboardCheck className="text-[1.8rem]" />,
+            icon: <HiClipboardCheck className="text-[1.7rem]" />,
           },
           {
             href: "/dashboard/admin/doctors-kyc",
             label: "Doctor's KYC",
-            icon: <FaRegUserCircle className="text-[1.8rem]" />,
+            icon: <FaRegUserCircle className="text-[1.7rem]" />,
           },
           {
             href: "/dashboard/admin/analytics",
-            label: "Analytics/Feedbacks",
-            icon: <HiOutlineChartPie className="text-[1.8rem]" />,
+            label: "Analytics",
+            icon: <HiOutlineChartPie className="text-[1.7rem]" />,
           },
           {
             href: "/dashboard/admin/settings",
             label: "Settings",
-            icon: <HiOutlineCog className="text-[1.8rem]" />,
+            icon: <HiOutlineCog className="text-[1.7rem]" />,
           },
         ]),
   ];
@@ -185,8 +185,16 @@ const DashboardWrapper = ({ children, role, title }: Props) => {
         </nav>
       </aside>
       <section className="w-full">
-        <Header openMenu={openMenu} setOpenMenu={setOpenMenu} role={role} />
-        <section>{children}</section>
+        <Header setOpenMenu={setOpenMenu} role={role} />
+        <section>
+          <div>
+            <h1 className="mb-[1.5rem] text-[1.25rem] text-[#020D14] font-semibold leading-normal lg:text-[2.25rem]">
+              {title}
+            </h1>
+          </div>
+          <h2 className="p-5">{title}</h2>
+          {children}
+        </section>
       </section>
     </main>
   );
