@@ -12,7 +12,7 @@ const TabLink = ({ children, href }: Prop) => {
     pathname === href ||
     pathname + "/" === href ||
     pathname.startsWith(href + "/");
-  console.log(pathname, active);
+  
   return (
     <Link
       href={href}

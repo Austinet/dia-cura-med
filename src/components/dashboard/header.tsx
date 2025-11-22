@@ -1,9 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Dispatch, SetStateAction, useState } from "react";
 import { FaBell } from "react-icons/fa6";
+import { HiChatBubbleOvalLeft, HiOutlineUser } from "react-icons/hi2";
 import { IoMenu } from "react-icons/io5";
+import { MdLogout } from "react-icons/md";
 
 type HeaderProp = {
   setOpenMenu: Dispatch<SetStateAction<boolean>>;
@@ -32,18 +35,25 @@ const Header = ({ setOpenMenu, role }: HeaderProp) => {
             className="lg:hidden"
             priority
           />
-          <h1 className="hidden lg:block text-[1.25rem] lg:text-[2rem] text-[#020D14] font-semibold leading-normal">
+          <h2 className="hidden lg:block text-[1.8rem] text-[#020D14] font-semibold leading-normal">
             {role.charAt(0).toLocaleUpperCase() + role.slice(1) + "'s"}{" "}
             Dashboard
-          </h1>
+          </h2>
         </div>
 
         {/* User profile */}
         <div className="flex items-center gap-3">
-          <div className="relative flex w-[2.818rem] h-[3rem] bg-transparent-blue items-center justify-center rounded-[0.5rem]">
+          <div className="relative flex w-[2.818rem] text-[#0D67A0] h-[3rem] items-center justify-center rounded-[0.5rem]">
             <FaBell className="text-2xl lg:text-4xl" />
-            <p className="px-2 py-2 rounded-full bg-red-500 absolute top-[0.3rem] right-[0.7rem]"></p>
+            <p className="px-2 py-2 rounded-full bg-[#CFE5F2] absolute top-[0.3rem] right-[0.7rem]"></p>
           </div>
+          {["patient", "doctor"].includes(role) && (
+            <div className="relative flex text-[#0D67A0] h-[3rem] items-center justify-center rounded-[0.5rem]">
+              <HiChatBubbleOvalLeft className="text-2xl lg:text-4xl" />
+              <p className="px-2 py-2 rounded-full bg-[#CFE5F2] absolute top-[0.3rem] right-[0.7rem]"></p>
+            </div>
+          )}
+
           <div onClick={() => setOpenProfile(!openProfile)}>
             <Image
               src="/images/dashboard/face.svg"
@@ -57,8 +67,8 @@ const Header = ({ setOpenMenu, role }: HeaderProp) => {
 
           {/* User card */}
           <div
-            className={`w-[320px] bg-white px-[1rem] py-[2rem] absolute right-[1rem] z-20 ${
-              openProfile ? "top-[3rem]" : "-top-[30rem]"
+            className={`w-[300px] bg-white px-[1rem] py-[1.5rem] absolute right-[1rem] z-20 ${
+              openProfile ? "top-[5rem]" : "-top-[30rem]"
             } space-y-[0.5rem] rounded-b-[0.5rem] shadow-lg transition-all duration-500 lg:static lg:shadow-none lg:p-0 lg:w-fit`}
           >
             <h3 className="text-base font-bold leading-normal text-[#262626]">
@@ -69,10 +79,19 @@ const Header = ({ setOpenMenu, role }: HeaderProp) => {
             </p>
             <p className="text-[0.875rem] font-semibold text-[#404040] lg:hidden">
               {role.charAt(0).toLocaleUpperCase() + role.slice(1)}
-              Admin
             </p>
-            <button className="lg:hidden inline-flex">View profile</button>
-            <button className="lg:hidden inline-flex">Logout</button>
+
+            <Link
+              href={`/dashboard/${role}/profile`}
+              className="lg:hidden flex gap-1"
+            >
+              <HiOutlineUser className="text-[1.7rem]" />
+              <span>View profile</span>
+            </Link>
+            <button className="lg:hidden flex gap-1">
+              <MdLogout className="text-[1.7rem]" />
+              <span>Logout</span>
+            </button>
           </div>
         </div>
       </header>

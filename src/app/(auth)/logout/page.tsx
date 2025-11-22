@@ -37,7 +37,7 @@ export default function LogoutButton() {
       className="px-4 text-[1.125rem] text-white flex items-center gap-3 disabled:opacity-50  border border-white rounded-[0.625rem] py-[1rem]"
     >
       {loading ? "Logging out..." : "Logout"}{" "}
-      <MdLogout className="text-[1.8rem]" />
+      <MdLogout className="text-[1.7rem]" />
     </button>
   );
 }

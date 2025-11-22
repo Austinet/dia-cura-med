@@ -3,7 +3,7 @@ import DashboardWrapper from "@/components/dashboard/dashboard-wrapper";
 
 const PatientDashboard = () => {
   return (
-    <DashboardWrapper>
+    <DashboardWrapper role="patient" title="Dashboard">
       <p>PatientDashboard</p>
       <LogoutButton />
     </DashboardWrapper>

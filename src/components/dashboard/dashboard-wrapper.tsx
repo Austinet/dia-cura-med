@@ -7,6 +7,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import Image from "next/image";
 import { TbLayoutGrid } from "react-icons/tb";
 import {
+  HiChat,
   HiClipboardCheck,
   HiOutlineChartPie,
   HiOutlineCog,
@@ -17,6 +18,7 @@ import {
 import { FaRegUserCircle } from "react-icons/fa";
 import TabLink from "./tab-link";
 import LogoutButton from "@/app/(auth)/logout/page";
+import { HiBookOpen, HiOutlineUser } from "react-icons/hi2";
 
 type Props = {
   children: React.ReactNode;
@@ -38,6 +40,7 @@ const DashboardWrapper = ({ children, role, title }: Props) => {
           {
             href: "/dashboard/doctor/patients",
             label: "Patients",
+            icon: <HiOutlineUsers className="text-[1.7rem]" />,
           },
           {
             href: "/dashboard/doctor/appointments",
@@ -47,11 +50,12 @@ const DashboardWrapper = ({ children, role, title }: Props) => {
           {
             href: "/dashboard/doctor/messages",
             label: "Messages",
+            icon: <HiChat className="text-[1.7rem]" />,
           },
           {
-            href: "/dashboard/doctor/settings",
-            label: "Settings",
-            icon: <HiOutlineCog className="text-[1.7rem]" />,
+            href: "/dashboard/doctor/education",
+            label: "Education",
+            icon: <HiBookOpen className="text-[1.7rem]" />,
           },
         ]
       : role === "patient"
@@ -72,10 +76,12 @@ const DashboardWrapper = ({ children, role, title }: Props) => {
           {
             href: "/dashboard/patient/messages",
             label: "Messages",
+            icon: <HiChat className="text-[1.7rem]" />,
           },
           {
-            href: "/dashboard/patient/profile",
-            label: "Profile",
+            href: "/dashboard/patient/education",
+            label: "Education",
+            icon: <HiBookOpen className="text-[1.7rem]" />,
           },
         ]
       : [
@@ -116,12 +122,17 @@ const DashboardWrapper = ({ children, role, title }: Props) => {
             label: "Analytics",
             icon: <HiOutlineChartPie className="text-[1.7rem]" />,
           },
-          {
-            href: "/dashboard/admin/settings",
-            label: "Settings",
-            icon: <HiOutlineCog className="text-[1.7rem]" />,
-          },
         ]),
+    {
+      href: `/dashboard/${role}/profile`,
+      label: "Profile",
+      icon: <HiOutlineUser className="text-[1.7rem]" />,
+    },
+    {
+      href: `/dashboard/${role}/settings`,
+      label: "Settings",
+      icon: <HiOutlineCog className="text-[1.7rem]" />,
+    },
   ];
 
   return (
@@ -187,12 +198,11 @@ const DashboardWrapper = ({ children, role, title }: Props) => {
       <section className="w-full">
         <Header setOpenMenu={setOpenMenu} role={role} />
         <section>
-          <div>
-            <h1 className="mb-[1.5rem] text-[1.25rem] text-[#020D14] font-semibold leading-normal lg:text-[2.25rem]">
+          <div className="p-5">
+            <h1 className="mb-[1.5rem] text-[1.25rem] text-[#020D14] font-semibold leading-normal lg:text-[1.6rem]">
               {title}
             </h1>
           </div>
-          <h2 className="p-5">{title}</h2>
           {children}
         </section>
       </section>
