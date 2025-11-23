@@ -48,10 +48,13 @@ const Header = ({ setOpenMenu, role }: HeaderProp) => {
             <p className="px-2 py-2 rounded-full bg-[#CFE5F2] absolute top-[0.3rem] right-[0.7rem]"></p>
           </div>
           {["patient", "doctor"].includes(role) && (
-            <div className="relative flex text-[#0D67A0] h-[3rem] items-center justify-center rounded-[0.5rem]">
+            <Link
+              href={`/dashboard/${role}/messages`}
+              className="relative flex text-[#0D67A0] h-[3rem] items-center justify-center rounded-[0.5rem]"
+            >
               <HiChatBubbleOvalLeft className="text-2xl lg:text-4xl" />
               <p className="px-2 py-2 rounded-full bg-[#CFE5F2] absolute top-[0.3rem] right-[0.7rem]"></p>
-            </div>
+            </Link>
           )}
 
           <div onClick={() => setOpenProfile(!openProfile)}>

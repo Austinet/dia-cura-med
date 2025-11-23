@@ -52,7 +52,7 @@ const LoginForm = () => {
 
       const data = await res.json();
       if (!res.ok) {
-        setServerResponse(data.message);
+        setServerResponse(data.message || "Internal server error");
         setLoading(false);
         throw new Error(data.message || "Login failed");
       }

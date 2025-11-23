@@ -158,7 +158,7 @@ const DashboardWrapper = ({ children, role, title }: Props) => {
               onClick={() => setOpenMenu(false)}
             />
           </div>
-          <ul className="py-6 mt-8 mb-16 space-y-[1.2rem] lg:space-y-[1.5rem]">
+          <ul className="py-6 mt-8 mb-16 space-y-[1rem] lg:space-y-[1.3rem]">
             {tabLinks.map((link) => {
               if (!link.subTabs) {
                 return (
