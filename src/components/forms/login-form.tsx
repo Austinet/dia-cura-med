@@ -70,15 +70,10 @@ const LoginForm = () => {
           router.push("/dashboard/admin");
           break;
       }
-
-      // Save token in localStorage or cookies (simplest for now)
-      // localStorage.setItem("diacura_token", data.token);
-
-      // Redirect based on role
-      // if (data.user.role === "doctor") router.push("/dashboard/doctor");
-      // else router.push("/dashboard/patient");
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
       setLoading(false);
     }
   };
@@ -176,7 +171,11 @@ const LoginForm = () => {
                 </Link>
               </div>
             </div>
-            <FormButton label="Login" className="mt-5 mb-3 md:mt-7 md:mb-5" />
+            <FormButton
+              label="Login"
+              disabled={loading}
+              className="mt-5 mb-3 md:mt-7 md:mb-5"
+            />
             <div className="text-center">
               <p className="text-sm md:text-[1.125rem] text-[#000000d5] font-medium">
                 <span>Don&apos;t have an account? </span>

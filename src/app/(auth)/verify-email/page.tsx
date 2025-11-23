@@ -24,8 +24,10 @@ export default function VerifyEmailPage() {
         if (!res.ok) throw new Error(data.message || "Verification failed");
 
         setMessage("Your email has been verified successfully!");
-      } catch (err: any) {
-        setMessage(`${err.message}`);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setMessage(`${error.message}`);
+        }
       }
     };
 

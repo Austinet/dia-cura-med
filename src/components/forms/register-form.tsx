@@ -12,10 +12,10 @@ import PasswordInput from "../ui/PasswordInput";
 const RegisterForm = () => {
   const [newUser, setNewUser] = useState(defaultUser);
   const [newUserErrors, setNewUserErrors] = useState(defaultUserErrors);
+  const [loading, setLoading] = useState(false);
   const [serverResponse, setServerResponse] = useState("");
   const router = useRouter();
   const searchParams = useSearchParams();
-  const role = "patient";
 
   const NAME_REGEX = /^[a-zA-Z][a-zA-Z]{2,}$/;
   const PASSWORD_REGEX =
@@ -85,7 +85,7 @@ const RegisterForm = () => {
       return;
     }
 
-    const { firstName, lastName, email, phoneNumber, password } = newUser;
+    const { firstName, lastName, email, phoneNumber, password, role } = newUser;
     const user = { firstName, lastName, email, phoneNumber, password, role };
 
     try {
@@ -108,8 +108,11 @@ const RegisterForm = () => {
 
       // Reset
       setNewUser(defaultUser);
-    } catch (error: any) {
-      toast.error(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+      setLoading(false);
     }
   };
 
@@ -284,7 +287,11 @@ const RegisterForm = () => {
                 </label>
               </div>
             </div>
-            <FormButton label="Create Account" className="mt-5 mb-2" />
+            <FormButton
+              label="Create Account"
+              disabled={loading}
+              className="mt-5 mb-2"
+            />
             <div className="text-center">
               <p className="text-[1.125rem] text-[#000000d5] font-medium">
                 <span>Already have an account? </span>

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { verifyToken } from "@/lib/jwt";
+import { JWTPayload } from "jose";
 
 export async function middleware(req: NextRequest) {
   const token = req.cookies.get("auth_token")?.value;
@@ -40,7 +41,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  const payload: any = await verifyToken(token);
+  const payload: JWTPayload | null = await verifyToken(token);
   if (!payload) {
     // invalid token -> redirect to login when hitting protected areas
     if (

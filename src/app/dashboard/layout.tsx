@@ -5,7 +5,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Toaster } from "react-hot-toast";
-import Header from "@/components/dashboard/header";
 import Footer from "@/components/dashboard/footer";
 
 const poppins = Poppins({

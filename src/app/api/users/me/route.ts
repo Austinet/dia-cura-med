@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/jwt";
 import { connectDB } from "@/lib/db";
 import { User } from "@/models/Users";
+import { JwtPayload } from "jsonwebtoken";
 
 export async function GET() {
   try {
@@ -10,7 +11,7 @@ export async function GET() {
     const token = (await cookies()).get("auth_token")?.value;
     if (!token) return NextResponse.json({ authenticated: false });
 
-    const payload: any = verifyToken(token);
+    const payload: JwtPayload | null = verifyToken(token);
     if (!payload.id) return NextResponse.json({ authenticated: false });
 
     await connectDB();
