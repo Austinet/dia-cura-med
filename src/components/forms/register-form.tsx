@@ -105,8 +105,8 @@ const RegisterForm = () => {
         setServerResponse(data.message);
         throw new Error(data.message || "Registration failed");
       }
-      setSuccess(true);
       toast.success("Registered successfully");
+      router.push("/login");
 
       // Reset
       setNewUser(defaultUser);

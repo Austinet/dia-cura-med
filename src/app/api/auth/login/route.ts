@@ -27,12 +27,12 @@ export async function POST(req: NextRequest) {
     }
 
     // Check if email is verified
-    if (["doctor", "patient"].includes(user.role) && !user.isVerified) {
-      return NextResponse.json(
-        { message: "Please verify your email before logging in" },
-        { status: 403 }
-      );
-    }
+    // if (["doctor", "patient"].includes(user.role) && !user.isVerified) {
+    //   return NextResponse.json(
+    //     { message: "Please verify your email before logging in" },
+    //     { status: 403 }
+    //   );
+    // }
 
     // Check password
     const isValid = await argon2.verify(user.password, password);
