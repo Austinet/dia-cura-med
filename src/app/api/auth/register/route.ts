@@ -3,7 +3,7 @@ import { connectDB } from "@/lib/db";
 import { User } from "@/models/Users";
 import argon2 from "argon2";
 import crypto from "crypto";
-import sgmail, { MailDataRequired } from "@sendgrid/mail";
+import { sendEmail } from "@/lib/emails";
 
 export async function POST(req: NextRequest) {
   try {
@@ -40,6 +40,7 @@ export async function POST(req: NextRequest) {
     // Hash password and verification token
     const hashed = await argon2.hash(password);
     const verificationToken = crypto.randomBytes(32).toString("hex");
+    const verificationTokenExpiry = new Date(Date.now() + 1000 * 60 * 60 * 24);
 
     // Create user
     const user = await User.create({
@@ -50,25 +51,22 @@ export async function POST(req: NextRequest) {
       password: hashed,
       role,
       verificationToken,
+      verificationTokenExpiry,
     });
 
     const verificationEmail = `
     ${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}
     `;
 
-    const message: MailDataRequired = {
+    const emailResponse = await sendEmail({
       to: email,
-      from: process.env.EMAIL_FROM!,
       subject: "Verify your email",
       html: `
             <p>Hi ${firstName},</p>
               <p>Thank you for registering. Plase verify your mail by clicking on the link below</p>
               <a href="${verificationEmail}">Verify Email</a>
             `,
-    };
-    sgmail.setApiKey(process.env.SENDGRID_API_KEY as string);
-    // await sgmail.send(message);
-    console.log(message);
+    });
 
     return NextResponse.json(
       {
@@ -81,6 +79,7 @@ export async function POST(req: NextRequest) {
           phoneNumber: user.phoneNumber,
           role: user.role,
         },
+        emailResponse,
       },
       { status: 201 }
     );

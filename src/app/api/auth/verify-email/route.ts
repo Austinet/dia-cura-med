@@ -6,18 +6,20 @@ export async function GET(req: NextRequest) {
   try {
     const url = new URL(req.url);
     const token = url.searchParams.get("token");
-    const email = url.searchParams.get("email");
 
-    if (!token || !email) {
+    if (!token) {
       return NextResponse.json(
-        { message: "Invalid verification link" },
+        { message: "Invalid verification token" },
         { status: 400 }
       );
     }
 
     await connectDB();
 
-    const user = await User.findOne({ email, verificationToken: token });
+    const user = await User.findOne({
+      verificationToken: token,
+    });
+    // verificationTokenExpiry: { $gt: new Date() },
     if (!user) {
       return NextResponse.json(
         { message: "Invalid or expired token" },
@@ -31,7 +33,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ message: "Email verified successfully" });
   } catch (err) {
-    console.error(err);
+    console.error("Verification error", err);
     return NextResponse.json(
       { message: "Internal Server Error" },
       { status: 500 }

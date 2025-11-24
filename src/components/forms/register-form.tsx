@@ -8,12 +8,14 @@ import FormButton from "../ui/form-button";
 import toast from "react-hot-toast";
 import { defaultUser, defaultUserErrors } from "@/constants/constants";
 import PasswordInput from "../ui/PasswordInput";
+import EmailOverlay from "../ui/email-overlay";
 
 const RegisterForm = () => {
   const [newUser, setNewUser] = useState(defaultUser);
   const [newUserErrors, setNewUserErrors] = useState(defaultUserErrors);
   const [loading, setLoading] = useState(false);
   const [serverResponse, setServerResponse] = useState("");
+  const [success, setSuccess] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -103,9 +105,8 @@ const RegisterForm = () => {
         setServerResponse(data.message);
         throw new Error(data.message || "Registration failed");
       }
-
+      setSuccess(true);
       toast.success("Registered successfully");
-      router.push("/login");
 
       // Reset
       setNewUser(defaultUser);
@@ -123,7 +124,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <section className="px-5 mb-8 lg:mb-12 font-Open_Sans">
+    <section className="px-5 mb-8 lg:mb-12 font-Open_Sans ">
       {/* Back button */}
       <div className="mt-5">
         <button
@@ -305,6 +306,14 @@ const RegisterForm = () => {
           </form>
         </div>
       </div>
+
+      {/* Success */}
+      {success && (
+        <EmailOverlay
+          message="An email verification"
+          userEmail={newUser.email}
+        />
+      )}
     </section>
   );
 };

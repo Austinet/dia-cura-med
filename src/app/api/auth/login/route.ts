@@ -27,9 +27,12 @@ export async function POST(req: NextRequest) {
     }
 
     // Check if email is verified
-    // if (!user.isVerified) {
-    //   return NextResponse.json({ message: "Please verify your email before logging in" }, { status: 403 });
-    // }
+    if (["doctor", "patient"].includes(user.role) && !user.isVerified) {
+      return NextResponse.json(
+        { message: "Please verify your email before logging in" },
+        { status: 403 }
+      );
+    }
 
     // Check password
     const isValid = await argon2.verify(user.password, password);
@@ -51,6 +54,9 @@ export async function POST(req: NextRequest) {
     const res = NextResponse.json({
       success: true,
       role: user.role,
+      id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
     });
 
     res.cookies.set({
@@ -63,18 +69,6 @@ export async function POST(req: NextRequest) {
       maxAge: 60 * 60 * 24, // 1 day
     });
     return res;
-
-    // return NextResponse.json({
-    //   message: "Login successful",
-    //   user: {
-    //     id: user._id,
-    //     firstName: user.firstName,
-    //     lastName: user.lastName,
-    //     email: user.email,
-    //     role: user.role,
-    //   },
-    //   token,
-    // });
   } catch (err) {
     console.error(err);
     return NextResponse.json(

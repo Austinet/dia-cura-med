@@ -9,6 +9,7 @@ export interface UserInterface extends Document {
   role: "patient" | "doctor";
   isVerified: boolean;
   verificationToken: string;
+  verificationTokenExpiry: Date;
 }
 
 const UserSchema = new mongoose.Schema<UserInterface>(
@@ -21,6 +22,7 @@ const UserSchema = new mongoose.Schema<UserInterface>(
     role: { type: String, enum: ["patient", "doctor"], required: true },
     isVerified: { type: Boolean, default: false },
     verificationToken: { type: String },
+    verificationTokenExpiry: { type: Date },
   },
   { timestamps: true }
 );
