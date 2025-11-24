@@ -84,6 +84,7 @@ const RegisterForm = () => {
     if (!validateForm()) {
       return;
     }
+    setLoading(true);
 
     const { firstName, lastName, email, phoneNumber, password, role } = newUser;
     const user = { firstName, lastName, email, phoneNumber, password, role };

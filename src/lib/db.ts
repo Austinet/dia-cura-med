@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
-const MONGO_URI =
-  process.env.MONGO_URI || "mongodb://localhost:27017/dia-cura-med";
+const MONGO_URI = process.env.MONGO_URI!;
 
 if (!MONGO_URI) {
   throw new Error("Please define the MONGO_URI env variable");
