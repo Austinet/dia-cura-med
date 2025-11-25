@@ -1,5 +1,5 @@
-const Step1 = ({ userId }) => {
-  return <div>Step1</div>;
+const Step1 = ({ userId }: {userId: string}) => {
+  return <div>{userId}</div>;
 };
 
 export default Step1;
