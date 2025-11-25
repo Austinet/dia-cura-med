@@ -10,6 +10,7 @@ export interface UserInterface extends Document {
   isVerified: boolean;
   verificationToken: string;
   verificationTokenExpiry: Date;
+  onboarding: string;
 }
 
 const UserSchema = new mongoose.Schema<UserInterface>(
@@ -23,6 +24,7 @@ const UserSchema = new mongoose.Schema<UserInterface>(
     isVerified: { type: Boolean, default: false },
     verificationToken: { type: String },
     verificationTokenExpiry: { type: Date },
+    onboarding: { type: String, default: "1" },
   },
   { timestamps: true }
 );

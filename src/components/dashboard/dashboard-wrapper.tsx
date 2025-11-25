@@ -5,7 +5,7 @@ import { useState } from "react";
 import { LuCross } from "react-icons/lu";
 import { AiOutlineClose } from "react-icons/ai";
 import Image from "next/image";
-import { TbLayoutGrid } from "react-icons/tb";
+import { TbLayoutGrid, TbReportAnalytics } from "react-icons/tb";
 import {
   HiChat,
   HiClipboardCheck,
@@ -19,6 +19,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import TabLink from "./tab-link";
 import LogoutButton from "@/app/(auth)/logout/page";
 import { HiBookOpen, HiOutlineUser } from "react-icons/hi2";
+import { BiCapsule } from "react-icons/bi";
 
 type Props = {
   children: React.ReactNode;
@@ -63,10 +64,12 @@ const DashboardWrapper = ({ children, role, title }: Props) => {
           {
             href: "/dashboard/patient/logs",
             label: "Glucose Logs",
+            icon: <TbReportAnalytics className="text-[1.7rem]" />,
           },
           {
             href: "/dashboard/patient/medications",
             label: "Medications",
+            icon: <BiCapsule className="text-[1.7rem]" />,
           },
           {
             href: "/dashboard/patient/appointments",
