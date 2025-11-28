@@ -7,13 +7,15 @@ import { FaBell } from "react-icons/fa6";
 import { HiChatBubbleOvalLeft, HiOutlineUser } from "react-icons/hi2";
 import { IoMenu } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
+import Aside from "./aside";
 
 type HeaderProp = {
-  setOpenMenu: Dispatch<SetStateAction<boolean>>;
+  // setOpenMenu: Dispatch<SetStateAction<boolean>>;
   role: "patient" | "doctor" | "admin";
 };
-const Header = ({ setOpenMenu, role }: HeaderProp) => {
+const Header = ({ role }: HeaderProp) => {
   const [openProfile, setOpenProfile] = useState(false);
+  const [openMenu, setOpenMenu] = useState(false);
 
   return (
     <>
@@ -98,6 +100,10 @@ const Header = ({ setOpenMenu, role }: HeaderProp) => {
           </div>
         </div>
       </header>
+      {/* Mobile Sidebar */}
+      <div className="lg:hidden">
+        <Aside openMenu={openMenu} setOpenMenu={setOpenMenu} role={role} />
+      </div>
     </>
   );
 };

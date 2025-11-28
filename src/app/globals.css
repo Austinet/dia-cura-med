@@ -26,3 +26,20 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Patient KYC section */
+.patient-kyc-input-row {
+  @apply flex flex-col md:flex-row items-start gap-[1.5rem] md:gap-[1.94rem];
+}
+
+.patient-kyc-input-col {
+  @apply w-full md:w-1/2;
+}
+
+.patient-kyc-label {
+  @apply inline-block text-[#33607E] text-[0.875rem] font-["DM_Sans"] font-medium leading-[1.25rem] mb-[0.25rem];
+}
+
+.patient-kyc-input {
+  @apply w-full bg-white border rounded-[0.5rem] px-[0.75rem] py-[0.8rem] md:py-[1rem] text-base leading-[1.5rem] outline-none;
+}
