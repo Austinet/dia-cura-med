@@ -106,16 +106,15 @@ const PatientsKycStepOne = () => {
     <section>
       <PatientKYC current={1} heading={heading}>
         {/* Personal information */}
-        <div className="max-w-[67.125rem] min-h-[37.4375rem] mx-auto py-[2rem] px-[1.3rem] md:px-[2rem] lg:px-[3.88rem] md:py-[2.88rem] rounded-[1.25rem] bg-light-blue shadow-xxl">
-          <h2 className="text-primary-color-light-blue-300 text-[1.2rem] md:text-[1.5rem] font-semibold leading-normal mb-[2rem] md:mb-[4rem]">
-            Personal Information
+        <div className="max-w-[65rem] min-h-[37.4375rem] mx-auto py-[2rem] md:px-[2rem] lg:px-[3.88rem] rounded-[1.25rem] bg-light-blue shadow-xxl">
+          <h2 className="text-primary-color-light-blue-300 text-[1.2rem] md:text-[1.5rem] font-semibold leading-normal mb-[2rem]">
+            Personal Information and Emergency Contact
           </h2>
 
           {/* Form container */}
           <form onSubmit={handleSubmit}>
-            <div className="flex flex-col gap-[1.5rem] md:gap-[1.94rem] mb-[2.5rem] md:mb-[3.25rem]">
+            <div className="flex flex-col gap-[1.5rem] md:gap-[1.94rem] mb-[2.5rem] md:mb-[3.5rem]">
               <div className="patient-kyc-input-row">
-                <div className="patient-kyc-input-col"></div>
                 <div className="patient-kyc-input-col">
                   <label htmlFor="ate_of_birth" className="patient-kyc-label">
                     Date of Birth
@@ -142,31 +141,6 @@ const PatientsKycStepOne = () => {
                     Enter a valid date of birth
                   </span>
                 </div>
-              </div>
-              <div className="patient-kyc-input-row">
-                <div className="patient-kyc-input-col">
-                  <label htmlFor="age" className="patient-kyc-label">
-                    Address
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Age"
-                    className={`patient-kyc-input ${
-                      formErrors.age ? "border-red-600" : "border-[#94A3B8]"
-                    }`}
-                    id="age"
-                    name="age"
-                    value={personalInformation.age}
-                    onChange={setProperty}
-                  />
-                  <span
-                    className={`text-red-600 ${
-                      formErrors.age ? "block" : "hidden"
-                    }`}
-                  >
-                    Enter a valid age, age must consist of digits only.
-                  </span>
-                </div>
                 <div className="patient-kyc-input-col">
                   <label htmlFor="gender" className="patient-kyc-label">
                     Gender
@@ -184,10 +158,10 @@ const PatientsKycStepOne = () => {
                           gender: "Male",
                         })
                       }
-                      className={`inline-block w-1/2 py-[0.8rem] md:py-[1rem] text-[0.875rem] font-medium leading-[1.25rem] outline-none ${
+                      className={`inline-block w-1/2 py-[0.8rem] md:py-[1rem] text-[0.875rem] font-medium leading-[1.25rem] outline-none rounded-l-[0.5rem] ${
                         personalInformation.gender === "Male"
-                          ? "border-b-[0.1875rem] border-b-primary-color-light-blue-300 text-primary-color-light-blue-300"
-                          : "text-[#666]"
+                          ? "bg-[#107BC0] text-[#fff]"
+                          : "bg-[#FFF] text-[#666]"
                       }`}
                     >
                       Male
@@ -200,10 +174,10 @@ const PatientsKycStepOne = () => {
                           gender: "Female",
                         })
                       }
-                      className={`inline-block w-1/2 py-[0.8rem] md:py-[1rem] text-[0.875rem] font-medium leading-[1.25rem] outline-none ${
+                      className={`inline-block w-1/2 py-[0.8rem] md:py-[1rem] text-[0.875rem] font-medium leading-[1.25rem] outline-none rounded-r-[0.5rem] ${
                         personalInformation.gender === "Female"
-                          ? "border-b-[0.1875rem] border-b-primary-color-light-blue-300 text-primary-color-light-blue-300"
-                          : "text-[#666]"
+                          ? "bg-[#107BC0] text-[#fff]"
+                          : "bg-[#FFF] text-[#666]"
                       }`}
                     >
                       Female
@@ -215,6 +189,102 @@ const PatientsKycStepOne = () => {
                     }`}
                   >
                     Please select your gender
+                  </span>
+                </div>
+              </div>
+              <div className="patient-kyc-input-row">
+                <div className="patient-kyc-input-col">
+                  <label htmlFor="age" className="patient-kyc-label">
+                    Address
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Address"
+                    className={`patient-kyc-input ${
+                      formErrors.age ? "border-red-600" : "border-[#94A3B8]"
+                    }`}
+                    id="age"
+                    name="age"
+                    value={personalInformation.age}
+                    onChange={setProperty}
+                  />
+                  <span
+                    className={`text-red-600 ${
+                      formErrors.age ? "block" : "hidden"
+                    }`}
+                  >
+                    Enter a valid age, age must consist of digits only.
+                  </span>
+                </div>
+                <div className="patient-kyc-input-col">
+                  <label htmlFor="age" className="patient-kyc-label">
+                    Emergency Contact Name
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter your emergency contact name"
+                    className={`patient-kyc-input ${
+                      formErrors.age ? "border-red-600" : "border-[#94A3B8]"
+                    }`}
+                    id="age"
+                    name="age"
+                    value={personalInformation.age}
+                    onChange={setProperty}
+                  />
+                  <span
+                    className={`text-red-600 ${
+                      formErrors.age ? "block" : "hidden"
+                    }`}
+                  >
+                    Enter a valid age, age must consist of digits only.
+                  </span>
+                </div>
+              </div>
+              <div className="patient-kyc-input-row">
+                <div className="patient-kyc-input-col">
+                  <label htmlFor="age" className="patient-kyc-label">
+                    Contact Relationship
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter your emergency contact relationship"
+                    className={`patient-kyc-input ${
+                      formErrors.age ? "border-red-600" : "border-[#94A3B8]"
+                    }`}
+                    id="age"
+                    name="age"
+                    value={personalInformation.age}
+                    onChange={setProperty}
+                  />
+                  <span
+                    className={`text-red-600 ${
+                      formErrors.age ? "block" : "hidden"
+                    }`}
+                  >
+                    Enter a valid age, age must consist of digits only.
+                  </span>
+                </div>
+                <div className="patient-kyc-input-col">
+                  <label htmlFor="age" className="patient-kyc-label">
+                    Contact Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    placeholder="Enter your emergency contact phone number"
+                    className={`patient-kyc-input ${
+                      formErrors.age ? "border-red-600" : "border-[#94A3B8]"
+                    }`}
+                    id="age"
+                    name="age"
+                    value={personalInformation.age}
+                    onChange={setProperty}
+                  />
+                  <span
+                    className={`text-red-600 ${
+                      formErrors.age ? "block" : "hidden"
+                    }`}
+                  >
+                    Enter a valid age, age must consist of digits only.
                   </span>
                 </div>
               </div>

@@ -9,9 +9,9 @@ type Props = {
 
 const PatientKYC = ({ children, heading, current }: Props) => {
   return (
-    <div className="bg-[#F6FCFF] py-[1.75rem] px-[1.5rem] md:pt-[1.75rem] md:pb-[6.56rem] md:px-[3.75rem]">
+    <div className="bg-[#F6FCFF] py-[1.75rem] px-[1.5rem] md:pt-[1.75rem] md:pb-[2.5rem] md:px-[3.75rem]">
       {/* Header */}
-      <div className="pb-[1.5rem] md:pb-[2.5rem]">
+      <div className="pb-[1.5rem]">
         {/* Logo container */}
         <Image
           className=""
@@ -23,11 +23,11 @@ const PatientKYC = ({ children, heading, current }: Props) => {
         />
       </div>
       <div
-        className={`max-w-[70.8125rem] mx-auto mb-[2.69rem] ${
-          current === 1 ? "" : "md:mb-[3.81rem]"
+        className={`max-w-[70.8125rem] mx-auto mb-2 ${
+          current === 1 ? "" : ""
         } text-center`}
       >
-        <h1 className="text-primary-color-light-blue-300 text-[1.2rem] md:text-[1.6rem] font-semibold leading-normal mb-[1.5rem] md:mb-[2rem]">
+        <h1 className="text-primary-color-light-blue-300 text-[1.2rem] md:text-[1.6rem] font-semibold leading-normal mb-[1.5rem]">
           {heading}
         </h1>
 

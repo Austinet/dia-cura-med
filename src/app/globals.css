@@ -7,6 +7,10 @@
   --toastify-error: #ef4444;
 }
 
+button {
+  cursor: pointer;
+}
+
 /* @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -29,7 +33,7 @@ body {
 
 /* Patient KYC section */
 .patient-kyc-input-row {
-  @apply flex flex-col md:flex-row items-start gap-[1.5rem] md:gap-[1.94rem];
+  @apply flex flex-col md:flex-row items-start gap-[1.5rem] md:gap-[1.94rem] lg:gap-[2.5rem];
 }
 
 .patient-kyc-input-col {
@@ -37,7 +41,7 @@ body {
 }
 
 .patient-kyc-label {
-  @apply inline-block text-[#33607E] text-[0.875rem] font-["DM_Sans"] font-medium leading-[1.25rem] mb-[0.25rem];
+  @apply block text-[#33607E] text-[1.1rem] font-medium leading-normal mb-[0.25rem];
 }
 
 .patient-kyc-input {
