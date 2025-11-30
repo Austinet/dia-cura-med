@@ -24,7 +24,11 @@ const errors = {
   gender: false,
 };
 
-const PatientsKycStepOne = () => {
+type Props = {
+  next: () => void;
+};
+
+const PatientsKycStepOne = ({ next }: Props) => {
   const [personalInformation, setPersonalInformation] =
     useState(defaultPersonalInfo);
   const [formErrors, setFormErrors] = useState(errors);
@@ -48,58 +52,22 @@ const PatientsKycStepOne = () => {
   //Handle form submission and validate form data
   const handleSubmit = (e) => {
     e.preventDefault();
+    next();
 
-    let validateForm = {};
-    let isFormValidated = true;
-
-    if (!NAME_REGEX.test(personalInformation.first_name.trim())) {
-      validateForm = { ...validateForm, firstName: true };
-      isFormValidated = false;
-    } else {
-      validateForm = { ...validateForm, firstName: false };
-    }
-
-    if (!NAME_REGEX.test(personalInformation.last_name.trim())) {
-      validateForm = { ...validateForm, lastName: true };
-      isFormValidated = false;
-    } else {
-      validateForm = { ...validateForm, lastName: false };
-    }
-
-    if (!personalInformation.date_of_birth) {
-      validateForm = { ...validateForm, dateOfBirth: true };
-      isFormValidated = false;
-    } else {
-      validateForm = { ...validateForm, dateOfBirth: false };
-    }
-
-    if (!PHONE_REGEX.test(personalInformation.phone_number.trim())) {
-      validateForm = { ...validateForm, phoneNumber: true };
-      isFormValidated = false;
-    } else {
-      validateForm = { ...validateForm, phoneNumber: false };
-    }
-
-    if (!personalInformation.gender) {
-      validateForm = { ...validateForm, gender: true };
-      isFormValidated = false;
-    } else {
-      validateForm = { ...validateForm, gender: false };
-    }
     //Display errors if any
     // setFormErrors(validateForm);
 
     //Submit valid personal information
-    if (isFormValidated) {
-      // dispatch({
-      //   type: "ADD_PERSONAL_INFORMATION",
-      //   payload: {...personalInformation},
-      // });
-      setPersonalInformation(defaultPersonalInfo);
-      router.push("/patients-kyc-step-two");
-    } else {
-      return;
-    }
+    // if (i) {
+    //   dispatch({
+    //     type: "ADD_PERSONAL_INFORMATION",
+    //     payload: {...personalInformation},
+    //   });
+    //   setPersonalInformation(defaultPersonalInfo);
+    //   router.push("/patients-kyc-step-two");
+    // } else {
+    //   return;
+    // }
   };
 
   return (
@@ -291,7 +259,7 @@ const PatientsKycStepOne = () => {
             </div>
 
             {/* buttons container */}
-            <PatientsKycButtons previous={""} />
+            <PatientsKycButtons />
           </form>
         </div>
       </PatientKYC>

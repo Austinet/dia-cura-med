@@ -38,8 +38,10 @@ const defaultDiagnosisErrors = {
   unit: false,
   anyAllergies: false,
 };
-
-const PatientsKycStepOne = () => {
+type Props = {
+  prev: () => void;
+};
+const PatientsKycStepOne = ({ prev }: Props) => {
   const [showModal, setShowModal] = useState(false);
   const [consent, setConsent] = useState("");
   const [formError, setFormError] = useState(false);
@@ -160,8 +162,14 @@ const PatientsKycStepOne = () => {
                 </p>
               </div>
             </div>
-            <div className="lg:flex lg:justify-end">
-              <button className="bg-[#107BC0] lg:w-[273px] w-[200px] h-[3rem] lg:h-[56px] mt-[2rem] lg:mt-[60px] lg:text-[20px] text-[#ffff] rounded font-Open-sans font-bold">
+            <div className="flex justify-end gap-6">
+              <button
+                onClick={prev}
+                className="flex items-center justify-center w-[8rem] md:w-[17.0625rem] h-[3rem] md:h-[3.5rem] rounded-[0.25rem] border-2 border-[#107BC0] text-[#107BC0] font-bold text-[1.25rem] hover:text-white hover:bg-[#107BC0] transition-all duration-300 ease-in-out"
+              >
+                Back
+              </button>
+              <button className="w-[8rem] md:w-[17.0625rem] h-[3rem] md:h-[3.5rem] rounded-[0.25rem] border-2 border-[#107BC0] text-white font-bold text-[1.25rem] bg-[#107BC0] hover:text-[#107BC0] hover:bg-transparent">
                 Finish
               </button>
             </div>
