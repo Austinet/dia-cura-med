@@ -1,9 +1,11 @@
 "use client";
 import { useState } from "react";
+
 // import { UsePatientKycContext } from "../../context/PatientKycContext";
 import PatientKYC from "@/components/onboarding/patients-kyc-wrapper";
 import { useRouter } from "next/navigation";
 import PatientsKycButtons from "@/components/onboarding/PatientsKycButtons";
+import { UseOnboardingContext } from "./page";
 
 //Default form and form error values
 const defaultPersonalInfo = {
@@ -38,21 +40,18 @@ const defaultDiagnosisErrors = {
   unit: false,
   anyAllergies: false,
 };
-type Props = {
-  prev: () => void;
-};
-const PatientsKycStepOne = ({ prev }: Props) => {
+
+const PatientsKycStepOne = () => {
+  const { state, prev } = UseOnboardingContext();
   const [showModal, setShowModal] = useState(false);
-  const [consent, setConsent] = useState("");
+  const [fullName, setFullName] = useState("");
   const [formError, setFormError] = useState(false);
   const [serverError, setServerError] = useState(false);
   const [serverErrorMessage, setServerErrorMessage] = useState("");
   const router = useRouter();
   //  const { state } = UsePatientKycContext();
   //Form validation regular expressions
-  const NAME_REGEX = /^[a-zA-Z][a-zA-Z]{2,}$/;
 
-  const heading = `I am Dr. Diacura-Med Tracker, please complete your profile`;
   // Validate patients KYC information
   // const validatePatientKyc = async (data) => {
   //   try {
@@ -81,7 +80,7 @@ const PatientsKycStepOne = ({ prev }: Props) => {
   // };
 
   //Handle form submission and validate form data
-  const onSubmitBtn = (e) => {
+  const onSubmitBtn = (e: React.FormEvent) => {
     e.preventDefault();
 
     // if (consent.toLowerCase().includes(state.last_name.toLowerCase())) {
@@ -102,21 +101,18 @@ const PatientsKycStepOne = ({ prev }: Props) => {
 
   return (
     <section>
-      <PatientKYC current={3} heading={heading}>
+      <PatientKYC current={3}>
         {/* Personal information */}
         <div className="max-w-[65rem] mx-auto py-[2rem] md:px-[2rem] lg:px-[3.88rem] rounded-[1.25rem] bg-light-blue shadow-xxl">
           <h2 className="text-[#107BC0] text-[1.2rem] md:text-[1.5rem] font-semibold leading-normal mb-[2rem]">
             Consent and Agreement
           </h2>
-
           {/* Server response errors */}
-          <p
-            className={`${
-              serverError ? "block" : "hidden"
-            } text-xl font-semibold text-red-600 text-center`}
-          >
-            {serverErrorMessage}
-          </p>
+          {serverError && (
+            <p className="text-xl font-semibold text-red-600 text-center">
+              {serverErrorMessage}
+            </p>
+          )}
 
           {/* Form container */}
           <form onSubmit={onSubmitBtn}>
@@ -126,8 +122,8 @@ const PatientsKycStepOne = ({ prev }: Props) => {
                 <span className="text-[#107BC0]">
                   [
                   <input
-                    value={consent}
-                    onChange={(e) => setConsent(e.target.value)}
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
                     className="text-[#107BC0] outline-none"
                     type="text"
                     placeholder="Your Full name"
@@ -162,14 +158,18 @@ const PatientsKycStepOne = ({ prev }: Props) => {
                 </p>
               </div>
             </div>
-            <div className="flex justify-end gap-6">
+            <div className="flex justify-end gap-6 mt-6">
               <button
                 onClick={prev}
+                type="button"
                 className="flex items-center justify-center w-[8rem] md:w-[17.0625rem] h-[3rem] md:h-[3.5rem] rounded-[0.25rem] border-2 border-[#107BC0] text-[#107BC0] font-bold text-[1.25rem] hover:text-white hover:bg-[#107BC0] transition-all duration-300 ease-in-out"
               >
                 Back
               </button>
-              <button className="w-[8rem] md:w-[17.0625rem] h-[3rem] md:h-[3.5rem] rounded-[0.25rem] border-2 border-[#107BC0] text-white font-bold text-[1.25rem] bg-[#107BC0] hover:text-[#107BC0] hover:bg-transparent">
+              <button
+                type="submit"
+                className="w-[8rem] md:w-[17.0625rem] h-[3rem] md:h-[3.5rem] rounded-[0.25rem] border-2 border-[#107BC0] text-white font-bold text-[1.25rem] bg-[#107BC0] hover:text-[#107BC0] hover:bg-transparent"
+              >
                 Finish
               </button>
             </div>

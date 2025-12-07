@@ -3,11 +3,10 @@ import Progress from "@/components/onboarding/Progress";
 
 type Props = {
   children: React.ReactNode;
-  heading: string;
   current: number;
 };
 
-const PatientKYC = ({ children, heading, current }: Props) => {
+const PatientKYC = ({ children, current }: Props) => {
   return (
     <div className="bg-[#F6FCFF] py-[1.75rem] px-[1.5rem] md:pt-[1.75rem] md:pb-[2.5rem] md:px-[3.75rem]">
       {/* Header */}
@@ -28,7 +27,7 @@ const PatientKYC = ({ children, heading, current }: Props) => {
         } text-center`}
       >
         <h1 className="text-primary-color-light-blue-300 text-[1.2rem] md:text-[1.6rem] font-semibold leading-normal mb-[1.5rem]">
-          {heading}
+          I am Dr. Diacura-Med Tracker, please complete your profile
         </h1>
 
         {/* Steps progress bar */}

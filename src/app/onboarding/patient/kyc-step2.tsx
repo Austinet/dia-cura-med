@@ -1,99 +1,134 @@
 "use client";
 import { useState } from "react";
-// import { UsePatientKycContext } from "../../context/PatientKycContext";
+import { UseOnboardingContext } from "./page";
 import PatientKYC from "@/components/onboarding/patients-kyc-wrapper";
-import { useRouter } from "next/navigation";
 import PatientsKycButtons from "@/components/onboarding/PatientsKycButtons";
+import List from "@/components/onboarding/list";
+import Error from "@/components/forms/error";
 
-//Default form and form error values
-const defaultPersonalInfo = {
-  first_name: "",
-  last_name: "",
-  phone_number: "",
-  date_of_birth: "",
-  age: "",
-  gender: "",
-};
-
+// Default form error values
 const errors = {
   trackInsulin: false,
-  lastName: false,
-  phoneNumber: false,
-  dateOfBirth: false,
-  age: false,
-  gender: false,
+  hasAllergies: false,
+  allergies: false,
+  hasChronicIllnesses: false,
+  chronicIllnesses: false,
 };
 
-//Default form and form error values
-const defaultDiagnosisDetails = {
-  diagnosis_date: "",
-  track_insulin: "",
-  insulin_therapy: "",
-};
-
-const defaultDiagnosisErrors = {
-  diagnosisDate: false,
-  trackInsulin: false,
-  insulinTherapy: false,
-  unit: false,
-  anyAllergies: false,
-};
-
-type Props = {
-  next: () => void;
-  prev: () => void;
-};
-
-const PatientsKycStepOne = ({ prev, next }: Props) => {
-  const [personalInformation, setPersonalInformation] =
-    useState(defaultPersonalInfo);
+const PatientsKycStepOne = () => {
+  const { state, dispatch, next, prev } = UseOnboardingContext();
+  const [diabetesInfo, setDiabetesInfo] = useState(state.diabetesInfo);
+  const [allergy, setAllergy] = useState("");
+  const [chronicIllness, setChronicIllness] = useState("");
   const [formErrors, setFormErrors] = useState(errors);
-  const [diabetesDiagnosisDetails, setDiabetesDiagnosisDetails] = useState(
-    defaultDiagnosisDetails
-  );
-  const [formError, setFormError] = useState(defaultDiagnosisErrors);
-  const [unit, setUnit] = useState("");
-  const [allergies, setAllergies] = useState("");
-  const [anyAllergies, setAnyAllergies] = useState("");
-  // const { dispatch } = UsePatientKycContext();
-  const router = useRouter();
 
   //Form validation regular expressions
-  const NAME_REGEX = /^[a-zA-Z][a-zA-Z]{2,}$/;
-  const PHONE_REGEX = /^\d{11}$/;
+  const TEXT_REGEX = /^[a-zA-Z][a-zA-Z]{2,}$/;
 
   //Set form data properties values
-  const setProperty = (e) => {
-    setPersonalInformation({
-      ...personalInformation,
-      [e.target.name]: e.target.value.trim(),
-    });
+  const setProperty = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setDiabetesInfo({ ...diabetesInfo, [e.target.name]: e.target.value });
   };
 
-  const heading = `I am Dr. Diacura-Med Tracker, please complete your profile`;
+  //Validates user inputs fields
+  const validateField = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const field = e.target.id;
+
+    if (field === "allergy") {
+      const allergies = !TEXT_REGEX.test(allergy);
+      setFormErrors({ ...formErrors, allergies });
+    } else if (field === "chronicIllness") {
+      const chronicIllnesses = !TEXT_REGEX.test(chronicIllness);
+      setFormErrors({ ...formErrors, chronicIllnesses });
+    }
+  };
+
+  // Adds Allergy or Chronic Illness
+  const addItem = (type: "allergy" | "chronicIllness") => {
+    if (type === "allergy" && !formErrors.allergies) {
+      if (![...diabetesInfo.allergies].includes(allergy)) {
+        setDiabetesInfo({
+          ...diabetesInfo,
+          allergies: [...diabetesInfo.allergies, allergy],
+        });
+      }
+      setAllergy("");
+    } else if (type === "chronicIllness" && !formErrors.chronicIllnesses) {
+      if (![...diabetesInfo.chronicIllnesses].includes(chronicIllness)) {
+        setDiabetesInfo({
+          ...diabetesInfo,
+          chronicIllnesses: [...diabetesInfo.chronicIllnesses, chronicIllness],
+        });
+      }
+      setChronicIllness("");
+    }
+  };
+
+  // Deletes Allergy or Chronic Illness
+  const deleteItem = (type: "allergy" | "chronicIllness", item: string) => {
+    if (type === "allergy") {
+      setDiabetesInfo({
+        ...diabetesInfo,
+        allergies: [...diabetesInfo.allergies].filter(
+          (allergy) => allergy !== item
+        ),
+      });
+    } else if (type === "chronicIllness") {
+      setDiabetesInfo({
+        ...diabetesInfo,
+        chronicIllnesses: [...diabetesInfo.chronicIllnesses].filter(
+          (chronicIllness) => chronicIllness !== item
+        ),
+      });
+    }
+  };
+
+  function validateForm() {
+    const trackInsulin = diabetesInfo.trackInsulin === undefined;
+    const hasAllergies = diabetesInfo.hasAllergies === undefined;
+    const hasChronicIllnesses = diabetesInfo.hasChronicIllnesses === undefined;
+
+    setFormErrors({
+      ...formErrors,
+      trackInsulin,
+      hasAllergies,
+      hasChronicIllnesses,
+    });
+
+    if (trackInsulin || hasAllergies || hasChronicIllnesses) {
+      return false;
+    }
+
+    return (
+      !formErrors.trackInsulin &&
+      !formErrors.hasAllergies &&
+      !formErrors.allergies &&
+      !formErrors.hasChronicIllnesses &&
+      !formErrors.chronicIllnesses
+    );
+  }
 
   //Handle form submission and validate form data
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    next();
-
-    //Submit valid personal information
-    // if (isFormValidated) {
-    //   dispatch({
-    //     type: "ADD_PERSONAL_INFORMATION",
-    //     payload: {...personalInformation},
-    //   });
-    //   setPersonalInformation(defaultPersonalInfo);
-    //   router.push("/patients-kyc-step-two");
-    // } else {
-    //   return;
-    // }
+    //Submit valid personal information if valid
+    if (validateForm()) {
+      dispatch({
+        type: "ADD_DIABETES_INFO",
+        payload: diabetesInfo,
+      });
+      next();
+    } else {
+      return;
+    }
   };
 
   return (
     <section>
-      <PatientKYC current={2} heading={heading}>
+      <PatientKYC current={2}>
         {/* Personal information */}
         <div className="max-w-[65rem] min-h-[37.4375rem] mx-auto py-[2rem] md:px-[2rem] lg:px-[3.88rem] rounded-[1.25rem] bg-light-blue shadow-xxl">
           <h2 className="text-primary-color-light-blue-300 text-[1.2rem] md:text-[1.5rem] font-semibold leading-normal mb-[2rem]">
@@ -105,42 +140,37 @@ const PatientsKycStepOne = ({ prev, next }: Props) => {
             <div className="flex flex-col gap-[1.5rem] md:gap-[1.94rem] mb-[2.5rem] md:mb-[3.5rem]">
               <div className="patient-kyc-input-row">
                 <div className="patient-kyc-input-col">
-                  <label htmlFor="date_of_birth" className="patient-kyc-label">
+                  <label
+                    htmlFor="dateOfDiagnosis"
+                    className="patient-kyc-label"
+                  >
                     Date of Diagnosis
                   </label>
                   <input
                     type="date"
                     min={"1875-01-01"}
                     max={new Date().toISOString().split("T")[0]}
-                    className={`patient-kyc-input ${
-                      formErrors.dateOfBirth
-                        ? "border-red-600"
-                        : "border-[#94A3B8]"
-                    }`}
-                    id="date_of_birth"
-                    name="date_of_birth"
-                    value={personalInformation.date_of_birth}
+                    className={`patient-kyc-input`}
+                    id="dateOfDiagnosis"
+                    name="dateOfDiagnosis"
+                    value={diabetesInfo.dateOfDiagnosis}
                     onChange={setProperty}
+                    required
                   />
-                  <span
-                    className={`text-red-600 ${
-                      formErrors.dateOfBirth ? "block" : "hidden"
-                    }`}
-                  >
-                    Enter a valid date of birth
-                  </span>
                 </div>
                 <div className="patient-kyc-input-col">
-                  <label htmlFor="gender" className="patient-kyc-label">
+                  <label htmlFor="diabetesType" className="patient-kyc-label">
                     Diabetes Type
                   </label>
                   <select
-                    name="diabetes-type"
-                    id="diabetes-type"
+                    name="diabetesType"
+                    id="diabetesType"
                     className="patient-kyc-input"
+                    onChange={setProperty}
+                    value={diabetesInfo.diabetesType}
                     required
                   >
-                    <option value="">Select your diabetes type</option>
+                    <option value="">Select diabetes type</option>
                     <option value="Type 1">Type 1</option>
                     <option value="Type 2">Type 2</option>
                     <option value="Impaired glucose tolerance">
@@ -151,18 +181,11 @@ const PatientsKycStepOne = ({ prev, next }: Props) => {
                     </option>
                     <option value="Prediabetes">Prediabetes</option>
                   </select>
-                  <span
-                    className={`text-red-600 ${
-                      formErrors.gender ? "block" : "hidden"
-                    }`}
-                  >
-                    Diabetes Type
-                  </span>
                 </div>
               </div>
               <div className="patient-kyc-input-row">
                 <div className="patient-kyc-input-col">
-                  <label htmlFor="gender" className="patient-kyc-label">
+                  <label htmlFor="trackInsulin" className="patient-kyc-label">
                     Do you track your insulin?
                   </label>
                   <div className="flex gap-[2rem] mt-4">
@@ -176,10 +199,11 @@ const PatientsKycStepOne = ({ prev, next }: Props) => {
                         id="yes"
                         name="trackInsulin"
                         className="w-[1.5rem] h-[1.5rem] outline-none"
-                        onClick={() =>
-                          setDiabetesDiagnosisDetails({
-                            ...diabetesDiagnosisDetails,
-                            track_insulin: "yes",
+                        checked={diabetesInfo.trackInsulin}
+                        onChange={() =>
+                          setDiabetesInfo({
+                            ...diabetesInfo,
+                            trackInsulin: true,
                           })
                         }
                       />
@@ -189,7 +213,7 @@ const PatientsKycStepOne = ({ prev, next }: Props) => {
                     </div>
                     <div
                       className={`w-[6.5rem] h-[3rem] py-[1rem] px-[1rem] rounded-[0.625rem] bg-white flex items-center justify-between  ${
-                        formError.trackInsulin ? "border border-red-600 " : ""
+                        formErrors.trackInsulin ? "border border-red-600 " : ""
                       }`}
                     >
                       <input
@@ -197,10 +221,11 @@ const PatientsKycStepOne = ({ prev, next }: Props) => {
                         id="no"
                         name="trackInsulin"
                         className="w-[1.5rem] h-[1.5rem] outline-none"
-                        onClick={() =>
-                          setDiabetesDiagnosisDetails({
-                            ...diabetesDiagnosisDetails,
-                            track_insulin: "no",
+                        checked={diabetesInfo.hasAllergies === false}
+                        onChange={() =>
+                          setDiabetesInfo({
+                            ...diabetesInfo,
+                            trackInsulin: false,
                           })
                         }
                       />
@@ -209,61 +234,52 @@ const PatientsKycStepOne = ({ prev, next }: Props) => {
                       </label>
                     </div>
                   </div>
-                  <span
-                    className={`text-red-600 md:text-lg ${
-                      formError.trackInsulin ? "block" : "hidden"
-                    }`}
-                  >
-                    Select yes or no to track your insulin
-                  </span>
+                  {formErrors.trackInsulin && (
+                    <span className="text-red-600">
+                      Select yes or no to track your insulin
+                    </span>
+                  )}
                 </div>
                 <div className="patient-kyc-input-col">
-                  <label
-                    htmlFor="insulin-therapy"
-                    className="patient-kyc-label"
-                  >
+                  <label htmlFor="insulinTherapy" className="patient-kyc-label">
                     What is your insulin therapy?
                   </label>
                   <select
-                    name="insulin-therapy"
-                    id="insulin-therapy"
+                    name="insulinTherapy"
+                    id="insulinTherapy"
                     className="patient-kyc-input"
+                    onChange={setProperty}
+                    value={diabetesInfo.insulinTherapy}
                     required
                   >
-                    <option value="">Select your insulin therapy</option>
+                    <option value="">Select insulin therapy</option>
                     <option value="Pen / Syringes">Pen / Syringes</option>
                     <option value="Pump">Pump</option>
                     <option value="No Insulin">No Insulin</option>
                   </select>
-                  <span
-                    className={`text-red-600 ${
-                      formErrors.trackInsulin ? "block" : "hidden"
-                    }`}
-                  >
-                    Please select your insulin therapy.
-                  </span>
                 </div>
               </div>
               <div className="patient-kyc-input-row">
                 <div className="patient-kyc-input-col">
-                  <label htmlFor="gender" className="patient-kyc-label">
+                  <label htmlFor="hasAllergies" className="patient-kyc-label">
                     Do you have allergies?
                   </label>
                   <div className="flex gap-[2rem] mt-4">
                     <div
                       className={`w-[6.5rem] h-[3rem] py-[1rem] px-[1rem] rounded-[0.625rem] bg-white flex items-center justify-between ${
-                        formErrors.trackInsulin ? "border border-red-600 " : ""
+                        formErrors.hasAllergies ? "border border-red-600 " : ""
                       }`}
                     >
                       <input
                         type="radio"
                         id="yes"
-                        name="trackInsulin"
+                        name="hasAllergies"
                         className="w-[1.5rem] h-[1.5rem] outline-none"
-                        onClick={() =>
-                          setDiabetesDiagnosisDetails({
-                            ...diabetesDiagnosisDetails,
-                            track_insulin: "yes",
+                        checked={diabetesInfo.hasAllergies}
+                        onChange={() =>
+                          setDiabetesInfo({
+                            ...diabetesInfo,
+                            hasAllergies: true,
                           })
                         }
                       />
@@ -273,18 +289,19 @@ const PatientsKycStepOne = ({ prev, next }: Props) => {
                     </div>
                     <div
                       className={`w-[6.5rem] h-[3rem] py-[1rem] px-[1rem] rounded-[0.625rem] bg-white flex items-center justify-between  ${
-                        formError.trackInsulin ? "border border-red-600 " : ""
+                        formErrors.hasAllergies ? "border border-red-600 " : ""
                       }`}
                     >
                       <input
                         type="radio"
                         id="no"
-                        name="trackInsulin"
+                        name="hasAllergies"
                         className="w-[1.5rem] h-[1.5rem] outline-none"
-                        onClick={() =>
-                          setDiabetesDiagnosisDetails({
-                            ...diabetesDiagnosisDetails,
-                            track_insulin: "no",
+                        checked={diabetesInfo.hasAllergies === false}
+                        onChange={() =>
+                          setDiabetesInfo({
+                            ...diabetesInfo,
+                            hasAllergies: false,
                           })
                         }
                       />
@@ -293,67 +310,82 @@ const PatientsKycStepOne = ({ prev, next }: Props) => {
                       </label>
                     </div>
                   </div>
-                  <span
-                    className={`text-red-600 md:text-lg ${
-                      formError.trackInsulin ? "block" : "hidden"
-                    }`}
-                  >
-                    Select yes or no to track your insulin
-                  </span>
+                  <Error
+                    trigger={formErrors.hasAllergies}
+                    message="Select yes or no to know if you have allergies"
+                  />
                 </div>
                 <div className="patient-kyc-input-col">
-                  <label
-                    htmlFor="insulin-therapy"
-                    className="patient-kyc-label"
-                  >
+                  <label htmlFor="allergies" className="patient-kyc-label">
                     If yes, kindly specify
                   </label>
 
-                  <div
-                    className="w-full border-b-4"
-                    style={{ borderColor: "#107BC0" }}
-                  >
+                  <div className="w-full flex gap-4 items-center">
                     <input
-                      className="w-full px-[12px] pt-[8px] pb-[16px] border-none outline-none"
+                      className="w-full pr-[12px] pt-[8px] pb-[12px] outline-none border-b-4 border-b-[#107BC0]"
                       type="text"
-                      placeholder="Please Specify separated by comma. Eg one, two, three"
-                      disabled={anyAllergies === "yes" ? false : true}
-                      onChange={(e) => setAllergies(e.target.value)}
-                      value={allergies}
-                      required={anyAllergies === "yes"}
+                      id="allergy"
+                      name="allergy"
+                      placeholder="Enter allergies and add"
+                      disabled={!diabetesInfo.hasAllergies}
+                      onChange={(e) => setAllergy(e.target.value)}
+                      value={allergy}
+                      onInput={validateField}
+                      onBlur={validateField}
+                      required={
+                        diabetesInfo.hasAllergies &&
+                        diabetesInfo.allergies?.length === 0
+                      }
                       style={{ backgroundColor: "rgba(207, 229, 242, 0.02)" }}
                     />
+                    <button
+                      type="button"
+                      onClick={() => addItem("allergy")}
+                      className=" inline-block text-white font-bold bg-[#107BC0] hover:bg-[#9353e5] rounded-md p-[0.6rem]"
+                    >
+                      Add{" "}
+                    </button>
                   </div>
-
-                  <span
-                    className={`text-red-600 ${
-                      formErrors.trackInsulin ? "block" : "hidden"
-                    }`}
-                  >
-                    Please select your insulin therapy.
-                  </span>
+                  {diabetesInfo.allergies.length > 0 && (
+                    <List
+                      items={diabetesInfo.allergies}
+                      type="allergy"
+                      deleteItem={deleteItem}
+                    />
+                  )}
+                  {formErrors.allergies && (
+                    <span className="text-red-600">
+                      Please enter a valid allergy, letters only.
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="patient-kyc-input-row">
                 <div className="patient-kyc-input-col">
-                  <label htmlFor="gender" className="patient-kyc-label">
+                  <label
+                    htmlFor="hasChronicIllnesses"
+                    className="patient-kyc-label"
+                  >
                     Do you have chronic illnesses?
                   </label>
                   <div className="flex gap-[2rem] mt-4">
                     <div
                       className={`w-[6.5rem] h-[3rem] py-[1rem] px-[1rem] rounded-[0.625rem] bg-white flex items-center justify-between ${
-                        formErrors.trackInsulin ? "border border-red-600 " : ""
+                        formErrors.hasChronicIllnesses
+                          ? "border border-red-600 "
+                          : ""
                       }`}
                     >
                       <input
                         type="radio"
                         id="yes"
-                        name="trackInsulin"
+                        name="hasChronicIllnesses"
                         className="w-[1.5rem] h-[1.5rem] outline-none"
-                        onClick={() =>
-                          setDiabetesDiagnosisDetails({
-                            ...diabetesDiagnosisDetails,
-                            track_insulin: "yes",
+                        checked={diabetesInfo.hasChronicIllnesses}
+                        onChange={() =>
+                          setDiabetesInfo({
+                            ...diabetesInfo,
+                            hasChronicIllnesses: true,
                           })
                         }
                       />
@@ -363,18 +395,21 @@ const PatientsKycStepOne = ({ prev, next }: Props) => {
                     </div>
                     <div
                       className={`w-[6.5rem] h-[3rem] py-[1rem] px-[1rem] rounded-[0.625rem] bg-white flex items-center justify-between  ${
-                        formError.trackInsulin ? "border border-red-600 " : ""
+                        formErrors.hasChronicIllnesses
+                          ? "border border-red-600 "
+                          : ""
                       }`}
                     >
                       <input
                         type="radio"
                         id="no"
-                        name="trackInsulin"
+                        name="hasChronicIllnesses"
                         className="w-[1.5rem] h-[1.5rem] outline-none"
-                        onClick={() =>
-                          setDiabetesDiagnosisDetails({
-                            ...diabetesDiagnosisDetails,
-                            track_insulin: "no",
+                        checked={diabetesInfo.hasChronicIllnesses === false}
+                        onChange={() =>
+                          setDiabetesInfo({
+                            ...diabetesInfo,
+                            hasChronicIllnesses: false,
                           })
                         }
                       />
@@ -383,45 +418,58 @@ const PatientsKycStepOne = ({ prev, next }: Props) => {
                       </label>
                     </div>
                   </div>
-                  <span
-                    className={`text-red-600 md:text-lg ${
-                      formError.trackInsulin ? "block" : "hidden"
-                    }`}
-                  >
-                    Select yes or no to track your insulin
-                  </span>
+                  {formErrors.hasChronicIllnesses && (
+                    <span className="text-red-600">
+                      Select yes or no to know if you have chronic Illnesses
+                    </span>
+                  )}
                 </div>
                 <div className="patient-kyc-input-col">
                   <label
-                    htmlFor="insulin-therapy"
+                    htmlFor="chronicIllnesses"
                     className="patient-kyc-label"
                   >
                     If yes, kindly specify
                   </label>
 
-                  <div
-                    className="w-full border-b-4"
-                    style={{ borderColor: "#107BC0" }}
-                  >
+                  <div className="w-full flex gap-4 items-center">
                     <input
-                      className="w-full px-[12px] pt-[8px] pb-[16px] border-none outline-none"
+                      className="w-full pr-[12px] border-b-4 border-b-[#107BC0] pt-[8px] pb-[12px] outline-none"
                       type="text"
-                      placeholder="Please Specify separated by comma. Eg one, two, three"
-                      disabled={anyAllergies === "yes" ? false : true}
-                      onChange={(e) => setAllergies(e.target.value)}
-                      value={allergies}
-                      required={anyAllergies === "yes"}
+                      name="chronicIllness"
+                      id="chronicIllness"
+                      placeholder="Enter chronic illness and add"
+                      disabled={!diabetesInfo.hasChronicIllnesses}
+                      onChange={(e) => setChronicIllness(e.target.value)}
+                      value={chronicIllness}
+                      onInput={validateField}
+                      onBlur={validateField}
+                      required={
+                        diabetesInfo.hasChronicIllnesses &&
+                        diabetesInfo.chronicIllnesses.length === 0
+                      }
                       style={{ backgroundColor: "rgba(207, 229, 242, 0.02)" }}
                     />
+                    <button
+                      type="button"
+                      className=" inline-block text-white font-bold bg-[#107BC0] hover:bg-[#9353e5] rounded-md p-[0.6rem]"
+                      onClick={() => addItem("chronicIllness")}
+                    >
+                      Add
+                    </button>
                   </div>
-
-                  <span
-                    className={`text-red-600 ${
-                      formErrors.trackInsulin ? "block" : "hidden"
-                    }`}
-                  >
-                    Please select your insulin therapy.
-                  </span>
+                  {diabetesInfo.chronicIllnesses.length > 0 && (
+                    <List
+                      items={diabetesInfo.chronicIllnesses}
+                      type="chronicIllness"
+                      deleteItem={deleteItem}
+                    />
+                  )}
+                  {formErrors.chronicIllnesses && (
+                    <span className="text-red-600">
+                      Please enter a valid chronic illness, letters only.
+                    </span>
+                  )}
                 </div>
               </div>
             </div>

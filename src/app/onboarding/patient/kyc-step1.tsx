@@ -1,78 +1,111 @@
 "use client";
 import { useState } from "react";
-// import { UsePatientKycContext } from "../../context/PatientKycContext";
+import { UseOnboardingContext } from "./page";
 import PatientKYC from "@/components/onboarding/patients-kyc-wrapper";
-import { useRouter } from "next/navigation";
 import PatientsKycButtons from "@/components/onboarding/PatientsKycButtons";
 
-//Default form and form error values
-const defaultPersonalInfo = {
-  first_name: "",
-  last_name: "",
-  phone_number: "",
-  date_of_birth: "",
-  age: "",
-  gender: "",
-};
-
+// Default form error values
 const errors = {
-  firstName: false,
-  lastName: false,
-  phoneNumber: false,
   dateOfBirth: false,
-  age: false,
   gender: false,
+  address: false,
+  emergencyContact: {
+    name: false,
+    phoneNumber: false,
+    relationship: false,
+  },
 };
 
-type Props = {
-  next: () => void;
-};
-
-const PatientsKycStepOne = ({ next }: Props) => {
-  const [personalInformation, setPersonalInformation] =
-    useState(defaultPersonalInfo);
+const PatientsKycStepOne = () => {
+  const { state, dispatch, next } = UseOnboardingContext();
+  const [personalInfo, setPersonalInfo] = useState(state.personalInfo);
   const [formErrors, setFormErrors] = useState(errors);
-  // const { dispatch } = UsePatientKycContext();
-  const router = useRouter();
 
   //Form validation regular expressions
   const NAME_REGEX = /^[a-zA-Z][a-zA-Z]{2,}$/;
   const PHONE_REGEX = /^\d{11}$/;
+  const ADDRESS_REGEX = /^(?=.*[A-Za-z])[\w\s.,!?'"@#%&()\-:;/]{10,500}$/;
 
   //Set form data properties values
-  const setProperty = (e) => {
-    setPersonalInformation({
-      ...personalInformation,
-      [e.target.name]: e.target.value.trim(),
-    });
+  const setProperty = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (["name", "relationship", "phoneNumber"].includes(e.target.name)) {
+      setPersonalInfo({
+        ...personalInfo,
+        emergencyContact: {
+          ...personalInfo.emergencyContact,
+          [e.target.name]: e.target.value,
+        },
+      });
+    } else {
+      setPersonalInfo({ ...personalInfo, [e.target.name]: e.target.value });
+    }
   };
 
-  const heading = `I am Dr. Diacura-Med Tracker, please complete your profile`;
+  //Validates user inputs fields
+  const validateField = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const field = e.target.id;
+
+    if (field === "address") {
+      const address = !ADDRESS_REGEX.test(personalInfo.address);
+      const gender = personalInfo.gender.trim().length === 0;
+      setFormErrors({ ...formErrors, address, gender });
+    } else if (field === "name") {
+      const name = !NAME_REGEX.test(personalInfo.emergencyContact.name);
+      setFormErrors({
+        ...formErrors,
+        emergencyContact: { ...formErrors.emergencyContact, name },
+      });
+    } else if (field === "phoneNumber") {
+      const phoneNumber = !PHONE_REGEX.test(
+        personalInfo.emergencyContact.phoneNumber
+      );
+      setFormErrors({
+        ...formErrors,
+        emergencyContact: { ...formErrors.emergencyContact, phoneNumber },
+      });
+    } else if (field === "relationship") {
+      const relationship = !NAME_REGEX.test(
+        personalInfo.emergencyContact.relationship
+      );
+      setFormErrors({
+        ...formErrors,
+        emergencyContact: { ...formErrors.emergencyContact, relationship },
+      });
+    }
+  };
+
+  function validateForm() {
+    const gender = personalInfo.gender.trim().length === 0;
+    setFormErrors({ ...formErrors, gender });
+    return (
+      !formErrors.dateOfBirth &&
+      !formErrors.address &&
+      !formErrors.gender &&
+      !formErrors.emergencyContact.name &&
+      !formErrors.emergencyContact.relationship &&
+      !formErrors.emergencyContact.phoneNumber
+    );
+  }
 
   //Handle form submission and validate form data
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    next();
 
-    //Display errors if any
-    // setFormErrors(validateForm);
-
-    //Submit valid personal information
-    // if (i) {
-    //   dispatch({
-    //     type: "ADD_PERSONAL_INFORMATION",
-    //     payload: {...personalInformation},
-    //   });
-    //   setPersonalInformation(defaultPersonalInfo);
-    //   router.push("/patients-kyc-step-two");
-    // } else {
-    //   return;
-    // }
+    //Submit valid personal information if valid
+    if (validateForm()) {
+      dispatch({
+        type: "ADD_PERSONAL_INFO",
+        payload: personalInfo,
+      });
+      next();
+    } else {
+      return;
+    }
   };
 
   return (
     <section>
-      <PatientKYC current={1} heading={heading}>
+      <PatientKYC current={1}>
         {/* Personal information */}
         <div className="max-w-[65rem] min-h-[37.4375rem] mx-auto py-[2rem] md:px-[2rem] lg:px-[3.88rem] rounded-[1.25rem] bg-light-blue shadow-xxl">
           <h2 className="text-primary-color-light-blue-300 text-[1.2rem] md:text-[1.5rem] font-semibold leading-normal mb-[2rem]">
@@ -84,7 +117,7 @@ const PatientsKycStepOne = ({ next }: Props) => {
             <div className="flex flex-col gap-[1.5rem] md:gap-[1.94rem] mb-[2.5rem] md:mb-[3.5rem]">
               <div className="patient-kyc-input-row">
                 <div className="patient-kyc-input-col">
-                  <label htmlFor="ate_of_birth" className="patient-kyc-label">
+                  <label htmlFor="dateOfBirth" className="patient-kyc-label">
                     Date of Birth
                   </label>
                   <input
@@ -96,18 +129,17 @@ const PatientsKycStepOne = ({ next }: Props) => {
                         ? "border-red-600"
                         : "border-[#94A3B8]"
                     }`}
-                    id="date_of_birth"
-                    name="date_of_birth"
-                    value={personalInformation.date_of_birth}
+                    id="dateOfBirth"
+                    name="dateOfBirth"
+                    value={personalInfo.dateOfBirth}
                     onChange={setProperty}
+                    required
                   />
-                  <span
-                    className={`text-red-600 ${
-                      formErrors.dateOfBirth ? "block" : "hidden"
-                    }`}
-                  >
-                    Enter a valid date of birth
-                  </span>
+                  {formErrors.dateOfBirth && (
+                    <span className="text-red-600">
+                      Enter a valid date of birth
+                    </span>
+                  )}
                 </div>
                 <div className="patient-kyc-input-col">
                   <label htmlFor="gender" className="patient-kyc-label">
@@ -121,13 +153,10 @@ const PatientsKycStepOne = ({ next }: Props) => {
                     <button
                       type="button"
                       onClick={() =>
-                        setPersonalInformation({
-                          ...personalInformation,
-                          gender: "Male",
-                        })
+                        setPersonalInfo({ ...personalInfo, gender: "Male" })
                       }
                       className={`inline-block w-1/2 py-[0.8rem] md:py-[1rem] text-[0.875rem] font-medium leading-[1.25rem] outline-none rounded-l-[0.5rem] ${
-                        personalInformation.gender === "Male"
+                        personalInfo.gender === "Male"
                           ? "bg-[#107BC0] text-[#fff]"
                           : "bg-[#FFF] text-[#666]"
                       }`}
@@ -137,13 +166,10 @@ const PatientsKycStepOne = ({ next }: Props) => {
                     <button
                       type="button"
                       onClick={() =>
-                        setPersonalInformation({
-                          ...personalInformation,
-                          gender: "Female",
-                        })
+                        setPersonalInfo({ ...personalInfo, gender: "Female" })
                       }
                       className={`inline-block w-1/2 py-[0.8rem] md:py-[1rem] text-[0.875rem] font-medium leading-[1.25rem] outline-none rounded-r-[0.5rem] ${
-                        personalInformation.gender === "Female"
+                        personalInfo.gender === "Female"
                           ? "bg-[#107BC0] text-[#fff]"
                           : "bg-[#FFF] text-[#666]"
                       }`}
@@ -151,109 +177,118 @@ const PatientsKycStepOne = ({ next }: Props) => {
                       Female
                     </button>
                   </div>
-                  <span
-                    className={`text-red-600 ${
-                      formErrors.gender ? "block" : "hidden"
-                    }`}
-                  >
-                    Please select your gender
-                  </span>
+                  {formErrors.gender && (
+                    <span className="text-red-600">
+                      Please select your gender
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="patient-kyc-input-row">
                 <div className="patient-kyc-input-col">
-                  <label htmlFor="age" className="patient-kyc-label">
+                  <label htmlFor="address" className="patient-kyc-label">
                     Address
                   </label>
                   <input
                     type="text"
-                    placeholder="Address"
+                    placeholder="Enter your address"
                     className={`patient-kyc-input ${
-                      formErrors.age ? "border-red-600" : "border-[#94A3B8]"
+                      formErrors.address ? "border-red-600" : "border-[#94A3B8]"
                     }`}
-                    id="age"
-                    name="age"
-                    value={personalInformation.age}
+                    id="address"
+                    name="address"
+                    value={personalInfo.address}
                     onChange={setProperty}
+                    onInput={validateField}
+                    onBlur={validateField}
+                    required
                   />
-                  <span
-                    className={`text-red-600 ${
-                      formErrors.age ? "block" : "hidden"
-                    }`}
-                  >
-                    Enter a valid age, age must consist of digits only.
-                  </span>
+                  {formErrors.address && (
+                    <span className="text-red-600">Enter a valid address.</span>
+                  )}
                 </div>
                 <div className="patient-kyc-input-col">
-                  <label htmlFor="age" className="patient-kyc-label">
+                  <label htmlFor="name" className="patient-kyc-label">
                     Emergency Contact Name
                   </label>
                   <input
                     type="text"
                     placeholder="Enter your emergency contact name"
                     className={`patient-kyc-input ${
-                      formErrors.age ? "border-red-600" : "border-[#94A3B8]"
+                      formErrors.emergencyContact.name
+                        ? "border-red-600"
+                        : "border-[#94A3B8]"
                     }`}
-                    id="age"
-                    name="age"
-                    value={personalInformation.age}
+                    id="name"
+                    name="name"
+                    value={personalInfo.emergencyContact.name}
                     onChange={setProperty}
+                    onInput={validateField}
+                    onBlur={validateField}
+                    required
                   />
-                  <span
-                    className={`text-red-600 ${
-                      formErrors.age ? "block" : "hidden"
-                    }`}
-                  >
-                    Enter a valid age, age must consist of digits only.
-                  </span>
+                  {formErrors.emergencyContact.name && (
+                    <span className="text-red-600">
+                      Enter a valid emergency contact name, must consist of
+                      letters only.
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="patient-kyc-input-row">
                 <div className="patient-kyc-input-col">
-                  <label htmlFor="age" className="patient-kyc-label">
+                  <label htmlFor="relationship" className="patient-kyc-label">
                     Contact Relationship
                   </label>
                   <input
                     type="text"
                     placeholder="Enter your emergency contact relationship"
                     className={`patient-kyc-input ${
-                      formErrors.age ? "border-red-600" : "border-[#94A3B8]"
+                      formErrors.emergencyContact.relationship
+                        ? "border-red-600"
+                        : "border-[#94A3B8]"
                     }`}
-                    id="age"
-                    name="age"
-                    value={personalInformation.age}
+                    id="relationship"
+                    name="relationship"
+                    value={personalInfo.emergencyContact.relationship}
                     onChange={setProperty}
+                    onInput={validateField}
+                    onBlur={validateField}
+                    required
                   />
-                  <span
-                    className={`text-red-600 ${
-                      formErrors.age ? "block" : "hidden"
-                    }`}
-                  >
-                    Enter a valid age, age must consist of digits only.
-                  </span>
+                  {formErrors.emergencyContact.relationship && (
+                    <span className="text-red-600">
+                      Enter a valid emergency contact relationship, must consist
+                      of letters only.
+                    </span>
+                  )}
                 </div>
                 <div className="patient-kyc-input-col">
-                  <label htmlFor="age" className="patient-kyc-label">
+                  <label htmlFor="phoneNumber" className="patient-kyc-label">
                     Contact Phone Number
                   </label>
                   <input
                     type="tel"
                     placeholder="Enter your emergency contact phone number"
                     className={`patient-kyc-input ${
-                      formErrors.age ? "border-red-600" : "border-[#94A3B8]"
+                      formErrors.emergencyContact.phoneNumber
+                        ? "border-red-600"
+                        : "border-[#94A3B8]"
                     }`}
-                    id="age"
-                    name="age"
-                    value={personalInformation.age}
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    value={personalInfo.emergencyContact.phoneNumber}
                     onChange={setProperty}
+                    onInput={validateField}
+                    onBlur={validateField}
+                    required
                   />
-                  <span
-                    className={`text-red-600 ${
-                      formErrors.age ? "block" : "hidden"
-                    }`}
-                  >
-                    Enter a valid age, age must consist of digits only.
-                  </span>
+                  {formErrors.emergencyContact.phoneNumber && (
+                    <span className="text-red-600">
+                      Enter a valid emergency contact phone number, must consist
+                      of eleven digits.
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
