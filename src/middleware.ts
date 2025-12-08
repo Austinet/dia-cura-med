@@ -33,7 +33,8 @@ export async function middleware(req: NextRequest) {
     if (
       pathname.startsWith("/dashboard/doctor") ||
       pathname.startsWith("/dashboard/patient") ||
-      pathname.startsWith("/dashboard/admin")
+      pathname.startsWith("/dashboard/admin") ||
+      pathname.startsWith("/onboarding/patient")
     ) {
       const loginUrl = new URL("/login", req.url);
       return NextResponse.redirect(loginUrl);
@@ -47,7 +48,8 @@ export async function middleware(req: NextRequest) {
     if (
       pathname.startsWith("/dashboard/doctor") ||
       pathname.startsWith("/dashboard/patient") ||
-      pathname.startsWith("/dashboard/admin")
+      pathname.startsWith("/dashboard/admin") ||
+      pathname.startsWith("/onboarding/patient")
     ) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
@@ -81,5 +83,6 @@ export const config = {
     "/dashboard/doctor/:path*",
     "/dashboard/patient/:path*",
     "/dashboard/admin/:path*",
+    "/onboarding/patient/:path*",
   ],
 };
