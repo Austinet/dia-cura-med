@@ -47,7 +47,6 @@ const PatientsKycStepOne = () => {
         } else {
           toast.success("Profile completed successfully");
           router.push("/dashboard/patient");
-          console.log("first");
         }
       } catch (error: unknown) {
         if (error instanceof Error) {

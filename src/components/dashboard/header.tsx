@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaBell } from "react-icons/fa6";
 import { HiChatBubbleOvalLeft, HiOutlineUser } from "react-icons/hi2";
 import { IoMenu } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
 import Aside from "./aside";
+import { UserInterface } from "@/models/Users";
 
 type HeaderProp = {
   role: "patient" | "doctor" | "admin";
@@ -15,6 +16,19 @@ type HeaderProp = {
 const Header = ({ role }: HeaderProp) => {
   const [openProfile, setOpenProfile] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState<UserInterface>({} as UserInterface);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const res = await fetch("/api/users/me");
+      const data = await res.json();
+      console.log(data.user);
+      setUser(data.user);
+      setLoading(true);
+    };
+    fetchUser();
+  }, []);
 
   return (
     <>
@@ -58,45 +72,58 @@ const Header = ({ role }: HeaderProp) => {
             </Link>
           )}
 
-          <div onClick={() => setOpenProfile(!openProfile)}>
-            <Image
-              src="/images/dashboard/face.svg"
-              alt="profile picture"
-              width={120}
-              height={38}
-              className="rounded-full w-[2.5rem] h-[2.5rem] lg:w-[4rem] lg:h-[4rem]"
-              priority
-            />
-          </div>
+          {!loading ? (
+            <p>Loading...</p>
+          ) : (
+            <>
+              <div onClick={() => setOpenProfile(!openProfile)}>
+                <Image
+                  src="/images/dashboard/face.svg"
+                  alt="profile picture"
+                  width={120}
+                  height={38}
+                  className="rounded-full w-[2.5rem] h-[2.5rem] lg:w-[4rem] lg:h-[4rem]"
+                  priority
+                />
+              </div>
 
-          {/* User card */}
-          <div
-            className={`w-[300px] bg-white px-[1rem] py-[1.5rem] absolute right-[1rem] z-20 ${
-              openProfile ? "top-[5rem]" : "-top-[30rem]"
-            } space-y-[0.5rem] rounded-b-[0.5rem] shadow-lg transition-all duration-500 lg:static lg:shadow-none lg:p-0 lg:w-fit`}
-          >
-            <h3 className="text-base font-bold leading-normal text-[#262626]">
-              Austine Ogaga Udhe
-            </h3>
-            <p className="text-[0.875rem] font-semibold text-[#404040]">
-              ID: DM-PA-1234
-            </p>
-            <p className="text-[0.875rem] font-semibold text-[#404040] lg:hidden">
-              {role.charAt(0).toLocaleUpperCase() + role.slice(1)}
-            </p>
+              {/* User card */}
+              <div
+                className={`w-[300px] bg-white px-[1rem] py-[1.5rem] absolute right-[1rem] z-20 ${
+                  openProfile ? "top-[5rem]" : "-top-[30rem]"
+                } space-y-[0.5rem] rounded-b-[0.5rem] shadow-lg transition-all duration-500 lg:static lg:shadow-none lg:p-0 lg:w-fit`}
+              >
+                <h3 className="text-base font-bold leading-normal text-[#262626]">
+                  {`${user.firstName
+                    .charAt(0)
+                    .toLocaleUpperCase()}${user.firstName
+                    .slice(1)
+                    .toLocaleLowerCase()}
+                    ${user.lastName
+                      .charAt(0)
+                      .toLocaleUpperCase()}${user.lastName
+                    .slice(1)
+                    .toLocaleLowerCase()}
+                    `}
+                </h3>
+                <p className="text-[0.875rem] font-semibold text-[rgb(64,64,64)] lg:hidden">
+                  {user.role.charAt(0).toLocaleUpperCase() + user.role.slice(1)}
+                </p>
 
-            <Link
-              href={`/dashboard/${role}/profile`}
-              className="lg:hidden flex gap-1"
-            >
-              <HiOutlineUser className="text-[1.7rem]" />
-              <span>View profile</span>
-            </Link>
-            <button className="lg:hidden flex gap-1">
-              <MdLogout className="text-[1.7rem]" />
-              <span>Logout</span>
-            </button>
-          </div>
+                <Link
+                  href={`/dashboard/${role}/profile`}
+                  className="lg:hidden flex gap-1"
+                >
+                  <HiOutlineUser className="text-[1.7rem]" />
+                  <span>View profile</span>
+                </Link>
+                <button className="lg:hidden flex gap-1">
+                  <MdLogout className="text-[1.7rem]" />
+                  <span>Logout</span>
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </header>
       {/* Mobile Sidebar */}

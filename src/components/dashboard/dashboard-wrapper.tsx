@@ -8,8 +8,6 @@ type Props = {
 };
 
 const DashboardWrapper = ({ children, role, title }: Props) => {
-  // const [openMenu, setOpenMenu] = useState(false);
-
   return (
     <main className="lg:flex relative">
       {/* Large screens */}
