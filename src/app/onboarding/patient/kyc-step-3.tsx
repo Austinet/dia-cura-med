@@ -1,102 +1,62 @@
 "use client";
 import { useState } from "react";
-
-// import { UsePatientKycContext } from "../../context/PatientKycContext";
 import PatientKYC from "@/components/onboarding/patients-kyc-wrapper";
 import { useRouter } from "next/navigation";
-import PatientsKycButtons from "@/components/onboarding/PatientsKycButtons";
-import { UseOnboardingContext } from "./page";
-
-//Default form and form error values
-const defaultPersonalInfo = {
-  first_name: "",
-  last_name: "",
-  phone_number: "",
-  date_of_birth: "",
-  age: "",
-  gender: "",
-};
-
-const errors = {
-  trackInsulin: false,
-  lastName: false,
-  phoneNumber: false,
-  dateOfBirth: false,
-  age: false,
-  gender: false,
-};
-
-//Default form and form error values
-const defaultDiagnosisDetails = {
-  diagnosis_date: "",
-  track_insulin: "",
-  insulin_therapy: "",
-};
-
-const defaultDiagnosisErrors = {
-  diagnosisDate: false,
-  trackInsulin: false,
-  insulinTherapy: false,
-  unit: false,
-  anyAllergies: false,
-};
+import { useOnboardingContext } from "@/hooks/usePatientOnboardingContext";
+import ErrorMessage from "@/components/forms/error";
+import toast from "react-hot-toast";
 
 const PatientsKycStepOne = () => {
-  const { state, prev } = UseOnboardingContext();
-  const [showModal, setShowModal] = useState(false);
+  const { state, user, prev } = useOnboardingContext();
   const [fullName, setFullName] = useState("");
   const [formError, setFormError] = useState(false);
-  const [serverError, setServerError] = useState(false);
-  const [serverErrorMessage, setServerErrorMessage] = useState("");
+  const [serverResponse, setServerResponse] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
-  //  const { state } = UsePatientKycContext();
-  //Form validation regular expressions
 
-  // Validate patients KYC information
-  // const validatePatientKyc = async (data) => {
-  //   try {
-  //     const response = await axios.post(
-  //       "/api/user/patient-kyc",
-  //       {
-  //         ...data,
-  //       },
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           "Authorization": `Bearer ${authToken}`
-  //         },
-  //       }
-  //     );
-  //     if (response.status === 200) {
-  //       setShowModal(true);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-
-  //     //Set response error if any
-  //     setServerError(true)
-  //     setServerErrorMessage(error.message)
-  //   }
-  // };
+  //Validates user inputs fields
+  const validateField = () => {
+    const userFullName = `${user.firstName} ${user.lastName}`.toLowerCase();
+    if (fullName.toLocaleLowerCase() !== userFullName) {
+      setFormError(true);
+    } else {
+      setFormError(false);
+    }
+  };
 
   //Handle form submission and validate form data
-  const onSubmitBtn = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // if (consent.toLowerCase().includes(state.last_name.toLowerCase())) {
-    //   setFormError(false);
-    //   validatePatientKyc(state);
-    //   setConsent("");
-    // } else {
-    //   setFormError(true);
-    // }
+    if (!formError) {
+      try {
+        setLoading(true);
+        const res = await fetch("/api/patients/onboarding", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "appication/json",
+          },
+          body: JSON.stringify(state),
+        });
+        const data = await res.json();
 
-    // A Quickfix for navigating to dashboard, since I don't have time to understand your code
-    // setTimeout(() => {
-    //   console.log("This will run after a 2-second delay");
-    //   // Call the next function here
-    //   toDashboard();
-    // }, 2000);
+        if (!res.ok) {
+          setServerResponse(data.message);
+          throw new Error(data.message || "Onboarding failed");
+        } else {
+          toast.success("Profile completed successfully");
+          router.push("/dashboard/patient");
+          console.log("first");
+        }
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          toast.error(error.message);
+        }
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   return (
@@ -108,24 +68,28 @@ const PatientsKycStepOne = () => {
             Consent and Agreement
           </h2>
           {/* Server response errors */}
-          {serverError && (
+          {serverResponse && (
             <p className="text-xl font-semibold text-red-600 text-center">
-              {serverErrorMessage}
+              {serverResponse}
             </p>
           )}
 
           {/* Form container */}
-          <form onSubmit={onSubmitBtn}>
+          <form onSubmit={handleSubmit}>
             <div className=" ">
               <p className="font-Open-sans font-normal lg:text-[20px] lg:mt-[20px]">
                 I,{" "}
                 <span className="text-[#107BC0]">
                   [
                   <input
+                    id="fullName"
+                    name="fullName"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     className="text-[#107BC0] outline-none"
                     type="text"
+                    onInput={validateField}
+                    onBlur={validateField}
                     placeholder="Your Full name"
                     required
                   />
@@ -136,13 +100,10 @@ const PatientsKycStepOne = () => {
                 will be used for the purpose of managing my diabetes related
                 services.{" "}
               </p>
-              <span
-                className={`text-red-600 md:text-lg ${
-                  formError ? "block" : "hidden"
-                }`}
-              >
-                Please enter your full name above
-              </span>
+              <ErrorMessage
+                message="Enter your full name above, beginning with your first name"
+                trigger={formError}
+              />
               <div className="flex gap-2 lg:mt-[40px] mt-[1.5rem] font-Open-sans">
                 <input type="checkbox" className="w-[20px] h-[20px]" />
                 <p className="font-Opens-sans">
@@ -168,9 +129,10 @@ const PatientsKycStepOne = () => {
               </button>
               <button
                 type="submit"
+                disabled={loading}
                 className="w-[8rem] md:w-[17.0625rem] h-[3rem] md:h-[3.5rem] rounded-[0.25rem] border-2 border-[#107BC0] text-white font-bold text-[1.25rem] bg-[#107BC0] hover:text-[#107BC0] hover:bg-transparent"
               >
-                Finish
+                {loading ? "Saving..." : "Finish"}
               </button>
             </div>
           </form>

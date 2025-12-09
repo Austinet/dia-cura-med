@@ -59,6 +59,12 @@ const LoginForm = () => {
 
       toast.success("Logged in successfully");
 
+      // checks if user has completed onboarding
+      if (data.role === "patient" && data.onboarding !== "completed") {
+        router.push("/onboarding/patient");
+      }
+
+      // Takes the user to dashboard
       switch (data.role) {
         case "patient":
           router.push("/dashboard/patient");
@@ -129,6 +135,7 @@ const LoginForm = () => {
                     required
                   />
                   <button
+                    type="button"
                     className="absolute right-3 top-[0.62rem] outline-none"
                     onClick={togglePasswordView}
                   >

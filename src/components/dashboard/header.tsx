@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { FaBell } from "react-icons/fa6";
 import { HiChatBubbleOvalLeft, HiOutlineUser } from "react-icons/hi2";
 import { IoMenu } from "react-icons/io5";
@@ -10,7 +10,6 @@ import { MdLogout } from "react-icons/md";
 import Aside from "./aside";
 
 type HeaderProp = {
-  // setOpenMenu: Dispatch<SetStateAction<boolean>>;
   role: "patient" | "doctor" | "admin";
 };
 const Header = ({ role }: HeaderProp) => {

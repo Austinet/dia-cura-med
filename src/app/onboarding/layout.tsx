@@ -6,6 +6,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Toaster } from "react-hot-toast";
 import Footer from "@/components/dashboard/footer";
+import PatientOnboardingContext from "@/context/patient-onboarding";
 
 const poppins = Poppins({
   weight: ["400", "500", "600", "700", "800", "900"],
@@ -29,7 +30,7 @@ export default function DashboardLayout({
         className={`${poppins.className} antialiased max-w-[1440px] mx-auto`}
       >
         <Toaster position="top-right" reverseOrder={false} />
-        {children}
+        <PatientOnboardingContext>{children}</PatientOnboardingContext>
         <Footer />
       </body>
     </html>

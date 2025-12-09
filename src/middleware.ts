@@ -56,6 +56,13 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
+  // checks if user has completed onboarding
+  if (payload.role === "patient" && payload.onboarding !== "completed") {
+    if (!pathname.startsWith("/onboarding/patient")) {
+      return NextResponse.redirect(new URL("/onboarding/patient", req.url));
+    }
+  }
+
   // role-based guards
   if (
     pathname.startsWith("/dashboard/doctor") &&

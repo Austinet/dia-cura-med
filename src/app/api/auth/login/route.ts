@@ -48,6 +48,7 @@ export async function POST(req: NextRequest) {
       id: user._id,
       role: user.role,
       email: user.email,
+      onboarding: user.onboarding,
     });
 
     // set HttpOnly cookie
@@ -57,6 +58,7 @@ export async function POST(req: NextRequest) {
       id: user._id,
       firstName: user.firstName,
       lastName: user.lastName,
+      onboarding: user.onboarding,
     });
 
     res.cookies.set({

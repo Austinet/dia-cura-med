@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
-import { UseOnboardingContext } from "./page";
+import { useOnboardingContext } from "@/hooks/usePatientOnboardingContext";
 import PatientKYC from "@/components/onboarding/patients-kyc-wrapper";
 import PatientsKycButtons from "@/components/onboarding/PatientsKycButtons";
 import List from "@/components/onboarding/list";
-import Error from "@/components/forms/error";
+import ErrorMessage from "@/components/forms/error";
 
 // Default form error values
 const errors = {
@@ -16,7 +16,7 @@ const errors = {
 };
 
 const PatientsKycStepOne = () => {
-  const { state, dispatch, next, prev } = UseOnboardingContext();
+  const { state, dispatch, next, prev } = useOnboardingContext();
   const [diabetesInfo, setDiabetesInfo] = useState(state.diabetesInfo);
   const [allergy, setAllergy] = useState("");
   const [chronicIllness, setChronicIllness] = useState("");
@@ -199,7 +199,7 @@ const PatientsKycStepOne = () => {
                         id="yes"
                         name="trackInsulin"
                         className="w-[1.5rem] h-[1.5rem] outline-none"
-                        checked={diabetesInfo.trackInsulin}
+                        checked={diabetesInfo.trackInsulin === true}
                         onChange={() =>
                           setDiabetesInfo({
                             ...diabetesInfo,
@@ -275,7 +275,7 @@ const PatientsKycStepOne = () => {
                         id="yes"
                         name="hasAllergies"
                         className="w-[1.5rem] h-[1.5rem] outline-none"
-                        checked={diabetesInfo.hasAllergies}
+                        checked={diabetesInfo.hasAllergies === true}
                         onChange={() =>
                           setDiabetesInfo({
                             ...diabetesInfo,
@@ -310,7 +310,7 @@ const PatientsKycStepOne = () => {
                       </label>
                     </div>
                   </div>
-                  <Error
+                  <ErrorMessage
                     trigger={formErrors.hasAllergies}
                     message="Select yes or no to know if you have allergies"
                   />
@@ -340,6 +340,7 @@ const PatientsKycStepOne = () => {
                     />
                     <button
                       type="button"
+                      disabled={allergy.length < 4}
                       onClick={() => addItem("allergy")}
                       className=" inline-block text-white font-bold bg-[#107BC0] hover:bg-[#9353e5] rounded-md p-[0.6rem]"
                     >
@@ -381,7 +382,7 @@ const PatientsKycStepOne = () => {
                         id="yes"
                         name="hasChronicIllnesses"
                         className="w-[1.5rem] h-[1.5rem] outline-none"
-                        checked={diabetesInfo.hasChronicIllnesses}
+                        checked={diabetesInfo.hasChronicIllnesses === true}
                         onChange={() =>
                           setDiabetesInfo({
                             ...diabetesInfo,
@@ -452,6 +453,7 @@ const PatientsKycStepOne = () => {
                     />
                     <button
                       type="button"
+                      disabled={chronicIllness.length < 4}
                       className=" inline-block text-white font-bold bg-[#107BC0] hover:bg-[#9353e5] rounded-md p-[0.6rem]"
                       onClick={() => addItem("chronicIllness")}
                     >

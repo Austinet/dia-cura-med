@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { UseOnboardingContext } from "./page";
+import { useOnboardingContext } from "@/hooks/usePatientOnboardingContext";
 import PatientKYC from "@/components/onboarding/patients-kyc-wrapper";
 import PatientsKycButtons from "@/components/onboarding/PatientsKycButtons";
 
@@ -17,7 +17,7 @@ const errors = {
 };
 
 const PatientsKycStepOne = () => {
-  const { state, dispatch, next } = UseOnboardingContext();
+  const { state, dispatch, next } = useOnboardingContext();
   const [personalInfo, setPersonalInfo] = useState(state.personalInfo);
   const [formErrors, setFormErrors] = useState(errors);
 

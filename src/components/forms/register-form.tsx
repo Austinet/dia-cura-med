@@ -8,14 +8,14 @@ import FormButton from "../ui/form-button";
 import toast from "react-hot-toast";
 import { defaultUser, defaultUserErrors } from "@/constants/constants";
 import PasswordInput from "../ui/PasswordInput";
-import EmailOverlay from "../ui/email-overlay";
+// import EmailOverlay from "../ui/email-overlay";
 
 const RegisterForm = () => {
   const [newUser, setNewUser] = useState(defaultUser);
   const [newUserErrors, setNewUserErrors] = useState(defaultUserErrors);
   const [loading, setLoading] = useState(false);
   const [serverResponse, setServerResponse] = useState("");
-  const [success, setSuccess] = useState(false);
+  // const [success, setSuccess] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -32,7 +32,7 @@ const RegisterForm = () => {
       return;
     }
 
-    setNewUser({ ...newUser, role });
+    setNewUser((newUser) => ({ ...newUser, role }));
   }, [searchParams, router]);
 
   // Set form property values
@@ -308,12 +308,12 @@ const RegisterForm = () => {
       </div>
 
       {/* Success */}
-      {success && (
+      {/* {success && (
         <EmailOverlay
           message="An email verification"
           userEmail={newUser.email}
         />
-      )}
+      )} */}
     </section>
   );
 };
