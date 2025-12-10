@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
 
     await connectDB();
     const user = await User.findById(payload.id)
-      .select("firstName lastName email role onboarding")
+      .select("firstName lastName email role phoneNumber onboarding")
       .lean();
     if (!user) return NextResponse.json({ authenticated: false });
     return NextResponse.json({ authenticated: true, user });

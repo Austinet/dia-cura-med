@@ -45,5 +45,9 @@ body {
 }
 
 .patient-kyc-input {
-  @apply w-full bg-white border rounded-[0.5rem] px-[0.75rem] py-[0.8rem] md:py-[1rem] text-base leading-[1.5rem] outline-none;
+  @apply w-full bg-white border rounded-[0.5rem] px-[0.75rem] py-[0.8rem] md:py-[1rem] text-base leading-[1.5rem] outline-none disabled:text-gray-600;
+}
+
+.profile-label {
+  @apply inline-block text-[#666666] text-[1.1rem] font-["DM_Sans"] font-medium leading-[1.25rem] mb-[0.25rem];
 }

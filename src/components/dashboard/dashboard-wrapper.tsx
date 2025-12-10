@@ -15,11 +15,11 @@ const DashboardWrapper = ({ children, role, title }: Props) => {
         <Aside role={role} />
       </div>
 
-      <section className="w-full">
+      <section className="w-full overflow-y-auto max-h-[966.3px]">
         <Header role={role} />
         <section>
-          <div className="p-5">
-            <h1 className="mb-[1.5rem] text-[1.25rem] text-[#020D14] font-semibold leading-normal lg:text-[1.6rem]">
+          <div className="p-5 pb-0">
+            <h1 className="text-[1.25rem] text-[#020D14] font-semibold leading-normal lg:text-[1.6rem]">
               {title}
             </h1>
           </div>

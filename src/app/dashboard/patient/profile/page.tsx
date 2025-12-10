@@ -1,9 +1,14 @@
 import DashboardWrapper from "@/components/dashboard/dashboard-wrapper";
+import PatientProfile from "./patient-profile";
 
 const ProfileTab = () => {
   return (
     <DashboardWrapper title="Profile" role="patient">
-      <h2>Profile</h2>
+      <section>
+        <div className="p-5">
+          <PatientProfile />
+        </div>
+      </section>
     </DashboardWrapper>
   );
 };

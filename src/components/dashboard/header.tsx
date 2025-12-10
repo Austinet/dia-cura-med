@@ -9,6 +9,7 @@ import { IoMenu } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
 import Aside from "./aside";
 import { UserInterface } from "@/models/Users";
+import LogoutButton from "@/app/(auth)/logout/page";
 
 type HeaderProp = {
   role: "patient" | "doctor" | "admin";
@@ -23,7 +24,6 @@ const Header = ({ role }: HeaderProp) => {
     const fetchUser = async () => {
       const res = await fetch("/api/users/me");
       const data = await res.json();
-      console.log(data.user);
       setUser(data.user);
       setLoading(true);
     };
@@ -32,7 +32,7 @@ const Header = ({ role }: HeaderProp) => {
 
   return (
     <>
-      <header className="p-5 relative w-full flex justify-between items-center lg:p-8 shadow">
+      <header className="p-5 relative w-full flex justify-between items-center shadow">
         {/* Logo container mobile */}
         <div className="flex items-center gap-[0.7rem]">
           {/* Menu icon for mobile */}
@@ -112,15 +112,12 @@ const Header = ({ role }: HeaderProp) => {
 
                 <Link
                   href={`/dashboard/${role}/profile`}
-                  className="lg:hidden flex gap-1"
+                  className="lg:hidden flex gap-1 items-center text-[#0D67A0]"
                 >
                   <HiOutlineUser className="text-[1.7rem]" />
                   <span>View profile</span>
                 </Link>
-                <button className="lg:hidden flex gap-1">
-                  <MdLogout className="text-[1.7rem]" />
-                  <span>Logout</span>
-                </button>
+                <LogoutButton className="text-[#0D67A0] flex flex-row-reverse gap-1 items-center lg:hidden" />
               </div>
             </>
           )}
