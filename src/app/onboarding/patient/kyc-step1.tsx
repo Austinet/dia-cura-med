@@ -22,7 +22,7 @@ const PatientsKycStepOne = () => {
   const [formErrors, setFormErrors] = useState(errors);
 
   //Form validation regular expressions
-  const NAME_REGEX = /^[a-zA-Z][a-zA-Z]{2,}$/;
+  const NAME_REGEX = /^[a-zA-Z][a-zA-Z ]{2,}$/;
   const PHONE_REGEX = /^\d{11}$/;
   const ADDRESS_REGEX = /^(?=.*[A-Za-z])[\w\s.,!?'"@#%&()\-:;/]{10,500}$/;
 

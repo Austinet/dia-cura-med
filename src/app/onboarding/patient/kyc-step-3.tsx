@@ -1,18 +1,23 @@
 "use client";
 import { useState } from "react";
 import PatientKYC from "@/components/onboarding/patients-kyc-wrapper";
-import { useRouter } from "next/navigation";
 import { useOnboardingContext } from "@/hooks/usePatientOnboardingContext";
 import ErrorMessage from "@/components/forms/error";
-import toast from "react-hot-toast";
 
-const PatientsKycStepOne = () => {
-  const { state, user, prev } = useOnboardingContext();
+type Props = {
+  handleCompleted: () => void;
+  loading: boolean;
+  serverResponse: string;
+};
+
+const PatientsKycStepOne = ({
+  handleCompleted,
+  loading,
+  serverResponse,
+}: Props) => {
+  const { user, prev } = useOnboardingContext();
   const [fullName, setFullName] = useState("");
   const [formError, setFormError] = useState(false);
-  const [serverResponse, setServerResponse] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   //Validates user inputs fields
   const validateField = () => {
@@ -29,32 +34,7 @@ const PatientsKycStepOne = () => {
     e.preventDefault();
 
     if (!formError) {
-      try {
-        setLoading(true);
-        const res = await fetch("/api/patients/onboarding", {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "appication/json",
-          },
-          body: JSON.stringify(state),
-        });
-        const data = await res.json();
-
-        if (!res.ok) {
-          setServerResponse(data.message);
-          throw new Error(data.message || "Onboarding failed");
-        } else {
-          toast.success("Profile completed successfully");
-          router.push("/dashboard/patient");
-        }
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          toast.error(error.message);
-        }
-      } finally {
-        setLoading(false);
-      }
+      return handleCompleted();
     }
   };
 

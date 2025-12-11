@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import { Patient } from "@/models/Patient";
-import { verifyToken } from "@/lib/jwt";
+import { signToken, verifyToken } from "@/lib/jwt";
 import { JwtPayload } from "jsonwebtoken";
 import { User } from "@/models/Users";
 
@@ -39,26 +39,49 @@ export async function POST(req: NextRequest) {
         personalInfo,
         diabetesInfo,
       });
-      //profile completed
-      const user = await User.findById(payload.id);
-      if (user) {
-        user.onboarding = "completed";
-        await user.save();
-      } else {
-        return NextResponse.json(
-          { message: "User not found" },
-          { status: 400 }
-        );
-      }
     } else {
       patient.personalInfo = { ...patient.personalInfo, ...personalInfo };
       patient.diabetesInfo = { ...patient.diabetesInfo, ...diabetesInfo };
       await patient.save();
     }
-    return NextResponse.json(
-      { message: "Profile completed successfully", patientId: patient._id },
-      { status: 200 }
-    );
+
+    //profile completed
+    const user = await User.findById(payload.id);
+    if (user) {
+      user.onboarding = "completed";
+      await user.save();
+    } else {
+      return NextResponse.json({ message: "User not found" }, { status: 400 });
+    }
+
+    // Generate JWT
+    const newToken = signToken({
+      id: user._id,
+      role: user.role,
+      email: user.email,
+      onboarding: "completed",
+    });
+
+    // set HttpOnly cookie
+    const res = NextResponse.json({
+      success: true,
+      message: "Profile completed successfully",
+      id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      onboarding: user.onboarding,
+    });
+
+    res.cookies.set({
+      name: "auth_token",
+      value: newToken,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      sameSite: "lax",
+      maxAge: 60 * 60 * 24, // 1 day
+    });
+    return res;
   } catch (err) {
     console.error("Onboarding error: ", err);
     return NextResponse.json(

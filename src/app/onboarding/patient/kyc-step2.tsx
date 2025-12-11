@@ -221,7 +221,7 @@ const PatientsKycStepOne = () => {
                         id="no"
                         name="trackInsulin"
                         className="w-[1.5rem] h-[1.5rem] outline-none"
-                        checked={diabetesInfo.hasAllergies === false}
+                        checked={diabetesInfo.trackInsulin === false}
                         onChange={() =>
                           setDiabetesInfo({
                             ...diabetesInfo,
@@ -326,7 +326,7 @@ const PatientsKycStepOne = () => {
                       type="text"
                       id="allergy"
                       name="allergy"
-                      placeholder="Enter allergies and add"
+                      placeholder="Enter allergies and click add"
                       disabled={!diabetesInfo.hasAllergies}
                       onChange={(e) => setAllergy(e.target.value)}
                       value={allergy}
